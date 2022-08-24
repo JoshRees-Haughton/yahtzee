@@ -31,13 +31,14 @@ die_5 = Die(5)
 
 class Turn:
 	#A class for each turn of the game, consisting of up to three rolls of the dice
-	def __repr__(self):
-		return "This turn has {counter} rolls left, and the current dice are {dice}".format(counter = self.counter, dice = self.dice_saved)
 
 	def __init__(self):
 		#Sets a counter to track how many rolls are left in the turn, and which dice have been saved for scoring
 		self.counter = 3
 		self.dice_saved = []
+
+	def __repr__(self):
+		return "This turn has {counter} rolls left, and the current dice are {dice}".format(counter = self.counter, dice = self.dice_saved)		
 
 	def roll(self, dice = [die_1, die_2, die_3, die_4, die_5]):
 		#The method to simulate each roll of the dice, taking which of the five dice to roll in a list as an argument. If left empty, all five dice will be rolled.
@@ -54,18 +55,45 @@ class Turn:
 				self.counter -= 1
 			return self.dice_saved
 
+class UpperScore:
+	total = 0
+	ones = 0
+	twos = 0
+	threes = 0
+	fours = 0
+	fives = 0
+	sixes = 0
+
+	def __init__(self):
+		pass
+
+	def show_scores(self):
+		print("Upper Scores")
+		print("############")
+		print("Ones: {ones}".format(ones = self.ones))
+		print("Twos: {twos}".format(twos = self.twos))
+		print("Threes: {threes}".format(threes = self.threes))
+		print("Fours: {fours}".format(fours = self.fours))
+		print("Fives: {fives}".format(fives = self.fives))
+		print("Sixes: {sixes}".format(sixes = self.sixes))
+		print("")
 
 
-turn_1 = Turn()
-turn_1.roll()
-print(turn_1)
-turn_1.roll([die_1, die_3])
-print(turn_1)
-# turn_1.roll_2()
-# turn_1.roll_3()
-turn_1.roll([die_2, die_4])
-print(turn_1)
-turn_1.roll([die_2, die_4])
-print(turn_1)
+
+upper_1 = UpperScore()
+upper_1.show_scores()
+
+
+# turn_1 = Turn()
+# turn_1.roll()
+# print(turn_1)
+# turn_1.roll([die_1, die_3])
+# print(turn_1)
+# # turn_1.roll_2()
+# # turn_1.roll_3()
+# turn_1.roll([die_2, die_4])
+# print(turn_1)
+# turn_1.roll([die_2, die_4])
+# print(turn_1)
 
 
