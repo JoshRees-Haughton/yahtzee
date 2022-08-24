@@ -11,6 +11,7 @@ class Die:
 		self.dice_id = dice_id
 
 	def __repr__(self):
+		#Prints the ID of a die, the current value and if it has been rolled
 		if self.rolled == False:
 			return "This die has an ID of {dice_id}, currently has the value {value} and has not been rolled.".format(dice_id = self.dice_id, value = self.value)
 		else:
@@ -28,10 +29,10 @@ die_2 = Die(2)
 die_3 = Die(3)
 die_4 = Die(4)
 die_5 = Die(5)
+game_dice = [die_1, die_2, die_3, die_4, die_5]
 
 class Turn:
 	#A class for each turn of the game, consisting of up to three rolls of the dice
-
 	def __init__(self):
 		#Sets a counter to track how many rolls are left in the turn, and which dice have been saved for scoring
 		self.counter = 3
@@ -55,7 +56,9 @@ class Turn:
 				self.counter -= 1
 			return self.dice_saved
 
+
 class UpperScore:
+	#A class for the scoring of the upper section of the game, with a variable for each number and a total
 	total = 0
 	ones = 0
 	twos = 0
@@ -68,6 +71,7 @@ class UpperScore:
 		pass
 
 	def show_scores(self):
+		#Prints the current scores for the player. Need to format more and add the bonus
 		print("Upper Scores")
 		print("############")
 		print("Ones: {ones}".format(ones = self.ones))
@@ -76,9 +80,17 @@ class UpperScore:
 		print("Fours: {fours}".format(fours = self.fours))
 		print("Fives: {fives}".format(fives = self.fives))
 		print("Sixes: {sixes}".format(sixes = self.sixes))
+		print("Total: {total}".format(total = self.total))
 		print("")
 
+	def score_upper(self):
+		pass
 
+# def roll_input(turn):
+# 	first_roll = turn.roll()
+# 	if turn.counter == 2:
+# 		for die in dice
+# 	input()
 
 upper_1 = UpperScore()
 upper_1.show_scores()
