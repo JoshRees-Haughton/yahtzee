@@ -33,7 +33,7 @@ class Turn:
 		self.counter = 3
 		self.dice_saved = []
 
-	def roll_1(self, dice = [die_1, die_2, die_3, die_4, die_5]):
+	def roll(self, dice = [die_1, die_2, die_3, die_4, die_5]):
 		#The method to simulate each roll of the dice, taking which of the five dice to roll in a list as an argument. If left empty, all five dice will be rolled.
 		while self.counter > 0:
 			if self.dice_saved == []:
@@ -50,20 +50,16 @@ class Turn:
 
 
 
-
-
-
-
 turn_1 = Turn()
-turn_1.roll_1()
+turn_1.roll()
 print(turn_1)
-turn_1.roll_1([die_1, die_3])
+turn_1.roll([die_1, die_3])
 print(turn_1)
 # turn_1.roll_2()
 # turn_1.roll_3()
-turn_1.roll_1([die_2, die_4])
+turn_1.roll([die_2, die_4])
 print(turn_1)
-turn_1.roll_1([die_2, die_4])
+turn_1.roll([die_2, die_4])
 print(turn_1)
 
 
