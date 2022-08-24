@@ -49,12 +49,6 @@ class Turn:
 			return self.dice_saved
 
 
-	# def roll_2(self, dice = [die_1, die_2, die_3, die_4, die_5]):
-	# 	if self.counter == 2:
-	# 		for die in dice:
-	# 			self.dice_saved[die.dice_id - 1] = die.roll_die()
-	# 		self.counter -= 1
-	# 		return self.dice_saved
 
 
 
