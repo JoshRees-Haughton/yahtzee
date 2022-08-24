@@ -10,6 +10,12 @@ class Die:
 		self.rolled = False
 		self.dice_id = dice_id
 
+	def __repr__(self):
+		if self.rolled == False:
+			return "This die has an ID of {dice_id}, currently has the value {value} and has not been rolled.".format(dice_id = self.dice_id, value = self.value)
+		else:
+			return "This die has an ID of {dice_id}, currently has the value {value} and has been rolled.".format(dice_id = self.dice_id, value = self.value)
+
 	def roll_die(self):
 		#This method sets the value of a die to a random value, and sets the status of the die to indicate it has been rolled
 		self.value = random.choice(self.values)
