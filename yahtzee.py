@@ -31,6 +31,7 @@ die_4 = Die(4)
 die_5 = Die(5)
 game_dice = [die_1, die_2, die_3, die_4, die_5]
 
+
 class Turn:
 	#A class for each turn of the game, consisting of up to three rolls of the dice
 	def __init__(self):
@@ -45,13 +46,12 @@ class Turn:
 		#The method to simulate each roll of the dice, taking which of the five dice to roll in a list as an argument. If left empty, all five dice will be rolled.
 		while self.counter > 0:
 			if self.dice_saved == []:
-				dice = [die_1, die_2, die_3, die_4, die_5]
-				for die in dice:
+				for die in game_dice:
 					self.dice_saved.append(die.roll_die())
 				self.counter -= 1
 				return self.dice_saved
 			else:
-				for die in dice:
+				for die in game_dice:
 					self.dice_saved[die.dice_id - 1] = die.roll_die()
 				self.counter -= 1
 			return self.dice_saved
@@ -86,17 +86,22 @@ class UpperScore:
 	def score_upper(self):
 		pass
 
-# def roll_input(turn):
-# 	first_roll = turn.roll()
-# 	if turn.counter == 2:
-# 		for die in dice
-# 	input()
+def roll_input(turn):
+	first_roll = turn.roll()
+	if turn.counter == 2:
+		print(turn)
+	turn_two_input = input("Please enter the dice to roll again (i.e. 145): ")
+	second_roll_input = []
+	for die_string in turn_two_input:
+		second_roll = second_roll_input.append(int(die_string))
+	
+	
+	
 
 upper_1 = UpperScore()
 upper_1.show_scores()
 
-
-# turn_1 = Turn()
+turn_1 = Turn()
 # turn_1.roll()
 # print(turn_1)
 # turn_1.roll([die_1, die_3])
@@ -107,5 +112,7 @@ upper_1.show_scores()
 # print(turn_1)
 # turn_1.roll([die_2, die_4])
 # print(turn_1)
+
+roll_input(turn_1)
 
 
