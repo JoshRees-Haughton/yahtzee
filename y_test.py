@@ -1,3 +1,9 @@
+def test_Die(die):
+	print(die)
+	print(die.value)
+	print(die.rolled)
+	print(die.dice_id)
+
 def test_roll_die(die):
 	#Tests the roll_die function, prints the 
 	print(die)

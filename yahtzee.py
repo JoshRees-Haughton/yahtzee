@@ -70,13 +70,13 @@ class UpperScore:
 			      6: ["Sixes", 0],}
 
 	#CHECK IF FIRST SQUARE BRACKET IS USING THE INDEX OR VALUE
-	ones = self.score_dict[1][1]
-	twos = self.score_dict[2][1]
-	threes = self.score_dict[3][1]
-	fours = self.score_dict[4][1]
-	fives = self.score_dict[5][1]
-	sixes = self.score_dict[6][1]
-	total = self.ones
+	ones = score_dict[1][1]
+	twos =  score_dict[2][1]
+	threes = score_dict[3][1]
+	fours = score_dict[4][1]
+	fives = score_dict[5][1]
+	sixes = score_dict[6][1]
+	total = ones + twos + threes + fours + fives + sixes
 
 	def __init__(self):
 		pass
@@ -104,6 +104,7 @@ class UpperScore:
 			if value == num:
 				score += value
 		self.score_dict[num][1] += score
+		self.total += score
 
 #MIGHT BE ABLE TO REFACTOR INTO OTHER PARTS OF THE CODE
 def dice_from_id(id_string):
@@ -137,7 +138,7 @@ def roll_input(turn):
 
 
 upper_1 = UpperScore()
-upper_1.show_scores()
+# upper_1.show_scores()
 
 turn_1 = Turn()
 # print(upper_1.score_dict)
@@ -152,9 +153,12 @@ turn_1 = Turn()
 # turn_1.roll([die_2, die_4])
 # print(turn_1)
 
-dice_after_roll = roll_input(turn_1)
-upper_1.score_upper(dice_after_roll, 1)
-# print(upper_1.score_dict)
-upper_1.show_scores()
+# dice_after_roll = roll_input(turn_1)
+# upper_1.score_upper(dice_after_roll, 1)
+# # print(upper_1.score_dict)
+# upper_1.show_scores()
 
-test_1 = y_test.test_roll_die(die_1)
+#Tests printing out Die class and all its attributes
+# test_1 = y_test.test_Die(die_1)
+#Tests Die.roll_die(), with the status of a die before and after being printed 
+# test_2 = y_test.test_roll_die(die_1)
