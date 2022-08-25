@@ -1,4 +1,5 @@
 import random
+import y_test
 
 class Die:
 	#Defines each of the dice as an object, with 6 possible values
@@ -61,23 +62,26 @@ class Turn:
 
 class UpperScore:
 	#A class for the scoring of the upper section of the game, with a variable for each number and a total
-	score_dict = {1: ["Ones",0], 
-			      2: ["Twos",0],
-			      3: ["Threes",0], 
-			      4: ["Fours",0],
-			      5: ["Fives",0], 
-			      6: ["Sixes",0],}
-	total = 0
-	ones = 0
-	twos = 0
-	threes = 0
-	fours = 0
-	fives = 0
-	sixes = 0
+	score_dict = {1: ["Ones", 0], 
+			      2: ["Twos", 0],
+			      3: ["Threes", 0], 
+			      4: ["Fours", 0],
+			      5: ["Fives", 0], 
+			      6: ["Sixes", 0],}
+
+	#CHECK IF FIRST SQUARE BRACKET IS USING THE INDEX OR VALUE
+	ones = self.score_dict[1][1]
+	twos = self.score_dict[2][1]
+	threes = self.score_dict[3][1]
+	fours = self.score_dict[4][1]
+	fives = self.score_dict[5][1]
+	sixes = self.score_dict[6][1]
+	total = self.ones
 
 	def __init__(self):
 		pass
 
+	#NEED TO FORMAT MORE, ADD BONUS
 	def show_scores(self):
 		#Prints the current scores for the player. Need to format more and add the bonus, and get scores from score_dict
 		print("Upper Scores")
@@ -91,15 +95,19 @@ class UpperScore:
 		print("Total: {total}".format(total = self.total))
 		print("")
 
+	#CHECK FOR CASE WHERE NONE MATCH
 	def score_upper(self, dice, num):
+		#Method that takes a list of dice, and the number from the Upper Section to score against.  
 		score = 0
 		for value in dice:
+			#Loops through the dice, and checks if any match the number in the argument/ If so, add each to the score (as the score is just a multiple of the valuee)
 			if value == num:
 				score += value
 		self.score_dict[num][1] += score
 
-
+#MIGHT BE ABLE TO REFACTOR INTO OTHER PARTS OF THE CODE
 def dice_from_id(id_string):
+	#Function to convert a string of numbers into a list of dice to be used in other functions 
 	dice_new = []
 	for num in id_string:
 		for die in game_dice:
@@ -149,3 +157,4 @@ upper_1.score_upper(dice_after_roll, 1)
 # print(upper_1.score_dict)
 upper_1.show_scores()
 
+test_1 = y_test.test_roll_die(die_1)
