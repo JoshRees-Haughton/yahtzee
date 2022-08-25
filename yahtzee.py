@@ -61,6 +61,12 @@ class Turn:
 
 class UpperScore:
 	#A class for the scoring of the upper section of the game, with a variable for each number and a total
+	score_dict = {1: ["Ones",0], 
+			      2: ["Twos",0],
+			      3: ["Threes",0], 
+			      4: ["Fours",0],
+			      5: ["Fives",0], 
+			      6: ["Sixes",0],}
 	total = 0
 	ones = 0
 	twos = 0
@@ -73,20 +79,25 @@ class UpperScore:
 		pass
 
 	def show_scores(self):
-		#Prints the current scores for the player. Need to format more and add the bonus
+		#Prints the current scores for the player. Need to format more and add the bonus, and get scores from score_dict
 		print("Upper Scores")
 		print("############")
-		print("Ones: {ones}".format(ones = self.ones))
-		print("Twos: {twos}".format(twos = self.twos))
-		print("Threes: {threes}".format(threes = self.threes))
-		print("Fours: {fours}".format(fours = self.fours))
-		print("Fives: {fives}".format(fives = self.fives))
-		print("Sixes: {sixes}".format(sixes = self.sixes))
+		print("Ones: {ones}".format(ones = self.score_dict[1][1]))
+		print("Twos: {twos}".format(twos = self.score_dict[2][1]))
+		print("Threes: {threes}".format(threes = self.score_dict[3][1]))
+		print("Fours: {fours}".format(fours = self.score_dict[4][1]))
+		print("Fives: {fives}".format(fives = self.score_dict[5][1]))
+		print("Sixes: {sixes}".format(sixes = self.score_dict[6][1]))
 		print("Total: {total}".format(total = self.total))
 		print("")
 
-	def score_upper(self):
-		pass
+	def score_upper(self, dice, num):
+		score = 0
+		for value in dice:
+			if value == num:
+				score += value
+		self.score_dict[num][1] += score
+
 
 def dice_from_id(id_string):
 	dice_new = []
@@ -110,13 +121,18 @@ def roll_input(turn):
 		second_roll_input = dice_from_id(turn_two_input)
 		turn.roll(second_roll_input)
 		print(turn)
+		turn_three_input = input("Please enter the dice to roll again (i.e. 145): ")
+		third_roll_input = dice_from_id(turn_three_input)
+		turn.roll(third_roll_input)
+		print("Your final dice are: " + str(turn.dice_saved))
 		return turn.dice_saved
 
 
-# upper_1 = UpperScore()
-# upper_1.show_scores()#
+upper_1 = UpperScore()
+upper_1.show_scores()
 
 turn_1 = Turn()
+# print(upper_1.score_dict)
 # turn_1.roll()
 # print(turn_1)
 # turn_1.roll([die_1, die_3])
@@ -128,7 +144,8 @@ turn_1 = Turn()
 # turn_1.roll([die_2, die_4])
 # print(turn_1)
 
-roll_input(turn_1)
-roll_input(turn_1)
-
+dice_after_roll = roll_input(turn_1)
+upper_1.score_upper(dice_after_roll, 1)
+# print(upper_1.score_dict)
+upper_1.show_scores()
 
