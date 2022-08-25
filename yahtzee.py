@@ -41,6 +41,7 @@ class Turn:
 		self.dice_saved = []
 
 	def __repr__(self):
+		#Need to make this dynamic based on number of rolls left
 		return "This turn has {counter} rolls left, and the current dice are {dice}".format(counter = self.counter, dice = self.dice_saved)		
 
 	def roll(self, dice = game_dice):
@@ -98,34 +99,36 @@ def dice_from_id(id_string):
 
 def roll_input(turn):
 	#Function to simulate the dice rolls for a turn, with prompts to the player
-	print("You roll all the dice")
-	first_roll = turn.roll()
-	if turn.counter == 2:
+	while turn.counter > 0:
+		#Run until the turn's counter is 0
+		if turn.counter == 3:
+			print("You roll all the dice")
+			first_roll = turn.roll()
+		if turn.counter == 2:
+			print(turn)
+		turn_two_input = input("Please enter the dice to roll again (i.e. 145): ")
+		second_roll_input = dice_from_id(turn_two_input)
+		turn.roll(second_roll_input)
 		print(turn)
-	turn_two_input = input("Please enter the dice to roll again (i.e. 145): ")
-	print(turn_two_input)
-	second_roll_input = dice_from_id(turn_two_input)
-	turn.roll(second_roll_input)
-	print(turn)
-	return turn_two_input
+		return turn.dice_saved
 
 
 # upper_1 = UpperScore()
 # upper_1.show_scores()#
 
 turn_1 = Turn()
-turn_1.roll()
-print(turn_1)
-turn_1.roll([die_1, die_3])
-print(turn_1)
-# turn_1.roll_2()
-# turn_1.roll_3()
-turn_1.roll([die_2, die_4])
-print(turn_1)
-turn_1.roll([die_2, die_4])
-print(turn_1)
+# turn_1.roll()
+# print(turn_1)
+# turn_1.roll([die_1, die_3])
+# print(turn_1)
+# # turn_1.roll_2()
+# # turn_1.roll_3()
+# turn_1.roll([die_2, die_4])
+# print(turn_1)
+# turn_1.roll([die_2, die_4])
+# print(turn_1)
 
-# roll_input(turn_1)
-# roll_input(turn_1)
+roll_input(turn_1)
+roll_input(turn_1)
 
 
