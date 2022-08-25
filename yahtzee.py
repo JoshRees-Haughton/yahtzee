@@ -23,6 +23,9 @@ class Die:
 		self.rolled = True
 		return self.value
 
+	def dice_from_id(self, id_list):
+		
+
 #Create the five dice that will be used to play the game
 die_1 = Die(1)
 die_2 = Die(2)
@@ -94,7 +97,7 @@ def roll_input(turn):
 	second_roll_input = []
 	for die_string in turn_two_input:
 		second_roll = second_roll_input.append(int(die_string))
-	
+
 	
 	
 
