@@ -42,7 +42,7 @@ class Turn:
 		self.dice_saved = []
 
 	def __repr__(self):
-		#Need to make this dynamic based on number of rolls left
+		#NEED TO MAKE THIS DYNAMIC BASED ON NUMBER OF ROLLS LEFT
 		return "This turn has {counter} rolls left, and the current dice are {dice}".format(counter = self.counter, dice = self.dice_saved)		
 
 	def roll(self, dice = game_dice):
@@ -62,28 +62,32 @@ class Turn:
 
 class UpperScore:
 	#A class for the scoring of the upper section of the game, with a variable for each number and a total
-	score_dict = {1: ["Ones", 0], 
-			      2: ["Twos", 0],
-			      3: ["Threes", 0], 
-			      4: ["Fours", 0],
-			      5: ["Fives", 0], 
-			      6: ["Sixes", 0],}
-
-	#CHECK IF FIRST SQUARE BRACKET IS USING THE INDEX OR VALUE
-	ones = score_dict[1][1]
-	twos =  score_dict[2][1]
-	threes = score_dict[3][1]
-	fours = score_dict[4][1]
-	fives = score_dict[5][1]
-	sixes = score_dict[6][1]
-	total = 0
 
 	def __init__(self):
-		pass
+		self.score_dict = {1: ["Ones", 0], 
+		      		  2: ["Twos", 0],
+		      		  3: ["Threes", 0], 
+		      		  4: ["Fours", 0],
+		      		  5: ["Fives", 0], 
+		      		  6: ["Sixes", 0],}
+		#CHECK IF FIRST SQUARE BRACKET IS USING THE INDEX OR VALUE, AND CHECK IF ACTUALLY NEEDED FOR CODE
+		self.ones = self.score_dict[1][1]
+		self.twos =  self.score_dict[2][1]
+		self.threes = self.score_dict[3][1]
+		self.fours = self.score_dict[4][1]
+		self.fives = self.score_dict[5][1]
+		self.sixes = self.score_dict[6][1]
+		self.total = 0
+
+
+	def __repr__(self):
+		return "The current scores for the Upper Section are {score_dict}".format(score_dict = self.score_dict)
+
 
 	#NEED TO FORMAT MORE, ADD BONUS
 	def show_scores(self):
 		#Prints the current scores for the player. Need to format more and add the bonus, and get scores from score_dict
+
 		print("Upper Scores")
 		print("############")
 		print("Ones: {ones}".format(ones = self.score_dict[1][1]))
@@ -97,17 +101,20 @@ class UpperScore:
 
 	#CHECK FOR CASE WHERE NONE MATCH
 	def score_upper(self, dice, num):
-		#Method that takes a list of dice, and the number from the Upper Section to score against.  
-		for value in dice:
-			if value == num and self.score_dict[num][1] == 0:
-			#Loops through the dice, and checks if any match the number in the argument. 
-				self.score_dict[num][1] += value
-				self.total += value
-				#Add each to the score (as the score is just a multiple of the value)	
-		if num not in dice:
-			print("No dice match selection, please select again.")
+		#Method that takes a list of dice, and the number from the Upper Section to score against.
 		if self.score_dict[num][1] != 0:
 			print("Number already has score, please select again.")
+			exit() #UPDATE THIS TO RETRY
+		else:	 
+			for value in dice:
+				if value == num:
+				#Loops through the dice, and checks if any match the number in the argument. 
+					self.score_dict[num][1] += value
+					self.total += value
+					#Add each to the score (as the score is just a multiple of the value)	
+		if num not in dice:
+			print("No dice match selection, please select again.")
+
 
 #MIGHT BE ABLE TO REFACTOR INTO OTHER PARTS OF THE CODE
 def dice_from_id(id_string):
@@ -118,7 +125,10 @@ def dice_from_id(id_string):
 			if die.dice_id == int(num):
 				dice_new.append(die)
 	return dice_new
-			
+
+class LowerScore:
+	pass
+
 
 def roll_input(turn):
 	#Function to simulate the dice rolls for a turn, with prompts to the player
@@ -140,10 +150,11 @@ def roll_input(turn):
 		return turn.dice_saved
 
 
-upper_1 = UpperScore()
+# upper_1 = UpperScore()
+# print(upper_1)
 # upper_1.show_scores()
 
-turn_1 = Turn()
+# turn_1 = Turn()
 # print(upper_1.score_dict)
 # turn_1.roll()
 # print(turn_1)
@@ -156,12 +167,19 @@ turn_1 = Turn()
 # turn_1.roll([die_2, die_4])
 # print(turn_1)
 
-dice_after_roll = roll_input(turn_1)
-upper_1.score_upper(dice_after_roll, 1)
-print(upper_1.score_dict)
-upper_1.show_scores()
+# dice_after_roll = roll_input(turn_1)
+# upper_1.score_upper(dice_after_roll, 1)
+# print(upper_1.score_dict)
+# upper_1.show_scores()
 
-#Tests printing out Die class and all its attributes
-# test_1 = y_test.test_Die(die_1)
-#Tests Die.roll_die(), with the status of a die before and after being printed 
-# test_2 = y_test.test_roll_die(die_1)
+
+
+#Test class instances
+test_turn_1 = Turn()
+
+#Tests
+# test_Die = y_test.test_Die(die_1) #Tests printing out Die class and all its attributes
+# test_roll_die = y_test.test_roll_die(die_1) #Tests Die.roll_die(), with the status of a die before and after being printed
+
+# test_Turn = y_test.test_Turn(test_turn_1) #Tests the class Turn, printing the attributest and the class itself
+# test_roll = y_test.test_roll(test_turn_1, [die_1, die_2], []) #Tests the roll() method by performing three rolls (all dice, two dice, no dice), and printing the class each time to ensure the attributes update correctly

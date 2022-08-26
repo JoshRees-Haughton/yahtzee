@@ -1,3 +1,5 @@
+
+
 def test_Die(die):
 	print(die)
 	print(die.value)
@@ -5,11 +7,33 @@ def test_Die(die):
 	print(die.dice_id)
 
 def test_roll_die(die):
-	#Tests the roll_die function, prints the 
 	print(die)
 	die.roll_die()
 	print(die)
 
+def test_Turn(turn):
+	print(turn)
+	print(turn.counter)
+	print(turn.dice_saved)
+
+def test_roll(turn, die1, die2):
+	print(turn.roll())
+	print(turn)
+	print(turn.roll(die1))
+	print(turn)
+	print(turn.roll(die2))
+	print(turn)
+
+def test_UpperScore(upper):
+	print(upper)
+	print(upper.score_dict)
+	print(upper.ones)
+	print(upper.twos)
+	print(upper.threes)
+	print(upper.fours)
+	print(upper.fives)
+	print(upper.sixes)
+	print(upper.total)
 
 
 # print(upper_1.score_dict)
