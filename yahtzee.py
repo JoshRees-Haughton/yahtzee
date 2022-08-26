@@ -76,7 +76,7 @@ class UpperScore:
 	fours = score_dict[4][1]
 	fives = score_dict[5][1]
 	sixes = score_dict[6][1]
-	total = ones + twos + threes + fours + fives + sixes
+	total = 0
 
 	def __init__(self):
 		pass
@@ -102,9 +102,8 @@ class UpperScore:
 		for value in dice:
 			#Loops through the dice, and checks if any match the number in the argument/ If so, add each to the score (as the score is just a multiple of the valuee)
 			if value == num:
-				score += value
-		self.score_dict[num][1] += score
-		self.total += score
+				self.score_dict[num][1] += value
+				self.total += value
 
 #MIGHT BE ABLE TO REFACTOR INTO OTHER PARTS OF THE CODE
 def dice_from_id(id_string):
@@ -153,10 +152,10 @@ turn_1 = Turn()
 # turn_1.roll([die_2, die_4])
 # print(turn_1)
 
-# dice_after_roll = roll_input(turn_1)
-# upper_1.score_upper(dice_after_roll, 1)
-# # print(upper_1.score_dict)
-# upper_1.show_scores()
+dice_after_roll = roll_input(turn_1)
+upper_1.score_upper(dice_after_roll, 1)
+print(upper_1.score_dict)
+upper_1.show_scores()
 
 #Tests printing out Die class and all its attributes
 # test_1 = y_test.test_Die(die_1)
