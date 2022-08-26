@@ -98,12 +98,16 @@ class UpperScore:
 	#CHECK FOR CASE WHERE NONE MATCH
 	def score_upper(self, dice, num):
 		#Method that takes a list of dice, and the number from the Upper Section to score against.  
-		score = 0
 		for value in dice:
-			#Loops through the dice, and checks if any match the number in the argument/ If so, add each to the score (as the score is just a multiple of the valuee)
-			if value == num:
+			if value == num and self.score_dict[num][1] == 0:
+			#Loops through the dice, and checks if any match the number in the argument. 
 				self.score_dict[num][1] += value
 				self.total += value
+				#Add each to the score (as the score is just a multiple of the value)	
+		if num not in dice:
+			print("No dice match selection, please select again.")
+		if self.score_dict[num][1] != 0:
+			print("Number already has score, please select again.")
 
 #MIGHT BE ABLE TO REFACTOR INTO OTHER PARTS OF THE CODE
 def dice_from_id(id_string):
