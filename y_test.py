@@ -35,6 +35,12 @@ def test_UpperScore(upper):
 	print(upper.sixes)
 	print(upper.total)
 
+def test_score_upper(upper, turn, num):
+	print(upper.score_dict)
+	dice_after_roll = turn.roll()
+	print(dice_after_roll)
+	upper.score_upper(dice_after_roll, num)
+	print(upper.score_dict)
 
 # print(upper_1.score_dict)
 # turn_1.roll()

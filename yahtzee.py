@@ -80,13 +80,14 @@ class UpperScore:
 		self.total = 0
 
 
+	#SHOULD FORMAT THIS MORE FOR PLAYER
 	def __repr__(self):
 		return "The current scores for the Upper Section are {score_dict}".format(score_dict = self.score_dict)
 
 
 	#NEED TO FORMAT MORE, ADD BONUS
 	def show_scores(self):
-		#Prints the current scores for the player. Need to format more and add the bonus, and get scores from score_dict
+		#Prints the current scores for the player. Get scores from score_dict
 
 		print("Upper Scores")
 		print("############")
@@ -126,8 +127,8 @@ def dice_from_id(id_string):
 				dice_new.append(die)
 	return dice_new
 
-class LowerScore:
-	pass
+# class LowerScore:
+# 	pass
 
 
 def roll_input(turn):
@@ -176,10 +177,22 @@ def roll_input(turn):
 
 #Test class instances
 test_turn_1 = Turn()
+test_upper_1 = UpperScore()
 
 #Tests
-# test_Die = y_test.test_Die(die_1) #Tests printing out Die class and all its attributes
-# test_roll_die = y_test.test_roll_die(die_1) #Tests Die.roll_die(), with the status of a die before and after being printed
+	#Tests printing out Die class and all its attributes
+	# test_Die = y_test.test_Die(die_1)
 
-# test_Turn = y_test.test_Turn(test_turn_1) #Tests the class Turn, printing the attributest and the class itself
-# test_roll = y_test.test_roll(test_turn_1, [die_1, die_2], []) #Tests the roll() method by performing three rolls (all dice, two dice, no dice), and printing the class each time to ensure the attributes update correctly
+	#Tests Die.roll_die(), with the status of a die before and after being printed 
+	# test_roll_die = y_test.test_roll_die(die_1) 
+
+	#Tests the class Turn, printing the attributest and the class itself
+	# test_Turn = y_test.test_Turn(test_turn_1)
+
+	#Tests the roll() method by performing three rolls (all dice, two dice, no dice), and printing the class each time to ensure the attributes update correctly
+	# test_roll = y_test.test_roll(test_turn_1, [die_1, die_2], []) 
+
+	# test_UpperScore = y_test.test_UpperScore(test_upper_1) #Tests the class UpperScore and its attributes.
+
+	#Tests the score_upper() method, with the Upper Score dictionary getting printed before and after a roll and a scoring of 1
+	# test_score_upper = y_test.test_score_upper(test_upper_1, test_turn_1, 1)
