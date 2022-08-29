@@ -116,6 +116,56 @@ class UpperScore:
 		if num not in dice:
 			print("No dice match selection, please select again.")
 
+class LowerScore:
+	def __init__(self):
+		self.score_dict = {"Three Of A Kind": 0, 
+						   "Four Of A Kind": 0,
+						   "Full House": 0,
+						   "Small Straight": 0,
+						   "Large Straight": 0,
+						   "Yahtzee": 0,
+						   "Chance": 0,
+						   "Yahtzee Bonus": 0}
+
+	three_of_k = 0
+	four_of_k = 0
+	f_h = 0
+	s_s = 0
+	l_s = 0
+	ytz = 0
+
+	#ADD ERROR MESSAGE FOR SCORE ALREADY PRESENT
+	#TRY TO UPDATE TO TAKE VALUES FROM DICT
+	def of_a_kind(self, dice):
+		score_of_a_kind = 0
+		counter = 0
+		for die in dice:
+			score_of_a_kind += die
+			print (score_of_a_kind)
+		for die in dice:
+			if dice.count(die) > 2:
+				counter += 1
+		print(counter)
+		if counter == 3 and self.three_of_k == 0:
+			self.three_of_k += score_of_a_kind
+			print(self.three_of_k)
+		elif counter == 4 and self.four_of_k== 0:
+			self.four_of_k += score_of_a_kind		
+
+
+		
+
+	# #ADD ERROR MESSAGE FOR SCORE ALREADY PRESENT
+	# def full_house(self, dice):
+	# 	for die in dice:
+	# 		if dice.count(die) == 3:
+	# 			dice_removed = [value for value in dice if value != die]
+	# 			for die_new in dice_removed:
+	# 				if dice_removed.count(die_new) == 2 and self.score_dict["Full House" == 0:
+	# 					self.score_dict["Full House"] += 50
+
+
+
 
 #MIGHT BE ABLE TO REFACTOR INTO OTHER PARTS OF THE CODE
 def dice_from_id(id_string):
@@ -126,9 +176,6 @@ def dice_from_id(id_string):
 			if die.dice_id == int(num):
 				dice_new.append(die)
 	return dice_new
-
-# class LowerScore:
-# 	pass
 
 
 def roll_input(turn):
@@ -178,6 +225,9 @@ def roll_input(turn):
 #Test class instances
 test_turn_1 = Turn()
 test_upper_1 = UpperScore()
+test_lower_1 = LowerScore()
+
+
 
 #Tests
 	#Tests printing out Die class and all its attributes
@@ -196,3 +246,6 @@ test_upper_1 = UpperScore()
 
 	#Tests the score_upper() method, with the Upper Score dictionary getting printed before and after a roll and a scoring of 1
 	# test_score_upper = y_test.test_score_upper(test_upper_1, test_turn_1, 1)
+
+dice_rolled = roll_input(test_turn_1)
+test_of_a_kind = y_test.test_of_a_kind(test_lower_1, dice_rolled)
