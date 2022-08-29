@@ -35,12 +35,20 @@ def test_UpperScore(upper):
 	print(upper.sixes)
 	print(upper.total)
 
+#ADD CONTENT
+def test_show_scores(upper):
+	pass	
+
 def test_score_upper(upper, turn, num):
 	print(upper.score_dict)
 	dice_after_roll = turn.roll()
 	print(dice_after_roll)
 	upper.score_upper(dice_after_roll, num)
 	print(upper.score_dict)
+
+#ADD CONTENT
+def test_LowerScore(lower):
+	pass
 
 def test_three_of_a_kind(lower, dice):
 	print(lower.three_of_k)
@@ -67,7 +75,14 @@ def test_sm_straight(lower, dice):
 def test_lg_straight(lower, dice):
 	print(lower.score_dict)
 	lower.lg_straight(dice)
-	print(lower.score_dict)	
+	print(lower.score_dict)
+
+def test_yahtzee(lower, dice1, dice2):
+	print(lower.score_dict)
+	lower.yahtzee(dice1)
+	print(lower.score_dict)
+	lower.yahtzee(dice2)
+	print(lower.score_dict)		
 
 
 

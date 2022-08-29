@@ -135,6 +135,10 @@ class LowerScore:
 						   "Chance": 0,
 						   "Yahtzee Bonus": 0}
 
+	#ADD CONTENT
+	def show_scores(self):
+		pass
+
 
 
 	#ADD ERROR MESSAGE FOR SCORE ALREADY PRESENT OR NOT APPLICABLE
@@ -166,15 +170,23 @@ class LowerScore:
 	def sm_straight(self, dice):
 		sm_straight_lists = [[1, 2, 3, 4], [2, 3, 4, 5], [3, 4, 5, 6]]
 		for die_list in sm_straight_lists:
-			if set(die_list).issubset(set(dice)) and self.score_dict["Small Straight"] = 0:
+			if set(die_list).issubset(set(dice)) and self.score_dict["Small Straight"] == 0:
 				self.score_dict["Small Straight"] = 30
 
 		#ADD ERROR MESSAGE FOR SCORE ALREADY PRESENT OR NOT APPLICABLE
 	def lg_straight(self, dice):
 		lg_straight_lists = [[1, 2, 3, 4, 5], [2, 3, 4, 5, 6]]
 		for die_list in lg_straight_lists:
-			if set(die_list).issubset(set(dice)) and self.score_dict["Large Straight"] = 0:
+			if set(die_list).issubset(set(dice)) and self.score_dict["Large Straight"] == 0:
 				self.score_dict["Large Straight"] = 40
+
+	def yahtzee(self, dice):
+		if dice.count(dice[0]) == 5:
+			if self.score_dict["Yahtzee"] == 0:
+				self.score_dict["Yahtzee"] = 50
+			else:
+				self.score_dict["Yahtzee Bonus"] += 100
+
 
 
 
@@ -276,3 +288,5 @@ test_lower_1 = LowerScore()
 	# dice_rolled = roll_input(test_turn_1)
 	# test_lg_straight = y_test.test_lg_straight(test_lower_1, dice_rolled)
 
+	# Tests the method to score Yahtzees in the Lower Section class, including bonus extra Yahtzees
+	# test_yahtzee = y_test.test_yahtzee(test_lower_1, [1, 1, 1, 1, 1], [6, 6, 6, 6, 6])
