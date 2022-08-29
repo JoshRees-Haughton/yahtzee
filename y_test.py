@@ -59,6 +59,18 @@ def test_full_house(lower, dice):
 	lower.full_house(dice)
 	print(lower.score_dict)	
 
+def test_sm_straight(lower, dice):
+	print(lower.score_dict)
+	lower.sm_straight(dice)
+	print(lower.score_dict)	
+
+def test_lg_straight(lower, dice):
+	print(lower.score_dict)
+	lower.lg_straight(dice)
+	print(lower.score_dict)	
+
+
+
 # print(upper_1.score_dict)
 # turn_1.roll()
 # print(turn_1)

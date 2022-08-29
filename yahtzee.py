@@ -137,14 +137,14 @@ class LowerScore:
 
 
 
-	#ADD ERROR MESSAGE FOR SCORE ALREADY PRESENT
+	#ADD ERROR MESSAGE FOR SCORE ALREADY PRESENT OR NOT APPLICABLE
 	def three_of_a_kind(self, dice):
 		score_of_a_kind = sum(dice)
 		for die in dice:
 			if dice.count(die) == 3 and self.score_dict["Three Of A Kind"] == 0:
 				self.score_dict["Three Of A Kind"] = score_of_a_kind
 
-	#ADD ERROR MESSAGE FOR SCORE ALREADY PRESENT
+	#ADD ERROR MESSAGE FOR SCORE ALREADY PRESENT OR NOT APPLICABLE
 	def four_of_a_kind(self, dice):
 		score_of_a_kind = sum(dice)
 		for die in dice:
@@ -153,15 +153,28 @@ class LowerScore:
 
 		
 
-	# #ADD ERROR MESSAGE FOR SCORE ALREADY PRESENT
+	#ADD ERROR MESSAGE FOR SCORE ALREADY PRESENT OR NOT APPLICABLE
 	def full_house(self, dice):
 		for die in dice:
 			if dice.count(die) == 3:
 				dice_removed = [value for value in dice if value != die]
 				for die_new in dice_removed:
 					if dice_removed.count(die_new) == 2 and self.score_dict["Full House"] == 0:
-						self.score_dict["Full House"] = 50
+						self.score_dict["Full House"] = 25
 
+	#ADD ERROR MESSAGE FOR SCORE ALREADY PRESENT OR NOT APPLICABLE
+	def sm_straight(self, dice):
+		sm_straight_lists = [[1, 2, 3, 4], [2, 3, 4, 5], [3, 4, 5, 6]]
+		for die_list in sm_straight_lists:
+			if set(die_list).issubset(set(dice)) and self.score_dict["Small Straight"] = 0:
+				self.score_dict["Small Straight"] = 30
+
+		#ADD ERROR MESSAGE FOR SCORE ALREADY PRESENT OR NOT APPLICABLE
+	def lg_straight(self, dice):
+		lg_straight_lists = [[1, 2, 3, 4, 5], [2, 3, 4, 5, 6]]
+		for die_list in lg_straight_lists:
+			if set(die_list).issubset(set(dice)) and self.score_dict["Large Straight"] = 0:
+				self.score_dict["Large Straight"] = 40
 
 
 
@@ -240,7 +253,8 @@ test_lower_1 = LowerScore()
 	#Tests the roll() method by performing three rolls (all dice, two dice, no dice), and printing the class each time to ensure the attributes update correctly
 	# test_roll = y_test.test_roll(test_turn_1, [die_1, die_2], []) 
 
-	# test_UpperScore = y_test.test_UpperScore(test_upper_1) #Tests the class UpperScore and its attributes.
+	#Tests the class UpperScore and its attributes.
+	#test_UpperScore = y_test.test_UpperScore(test_upper_1) 
 
 	#Tests the score_upper() method, with the Upper Score dictionary getting printed before and after a roll and a scoring of 1
 	# test_score_upper = y_test.test_score_upper(test_upper_1, test_turn_1, 1)
@@ -253,3 +267,12 @@ test_lower_1 = LowerScore()
 	#Tests the full_house() method from the LowerScore section	
 	# dice_rolled = roll_input(test_turn_1)
 	# test_full_house = y_test.test_full_house(test_lower_1, dice_rolled)
+
+	#Tests the sm_straight() method from the LowerScore section	
+	# dice_rolled = roll_input(test_turn_1)
+	# test_sm_straight = y_test.test_sm_straight(test_lower_1, dice_rolled)
+
+	# Tests the sm_straight() method from the LowerScore section	
+	# dice_rolled = roll_input(test_turn_1)
+	# test_lg_straight = y_test.test_lg_straight(test_lower_1, dice_rolled)
+
