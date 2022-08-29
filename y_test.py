@@ -42,13 +42,19 @@ def test_score_upper(upper, turn, num):
 	upper.score_upper(dice_after_roll, num)
 	print(upper.score_dict)
 
-def test_of_a_kind(lower, dice):
+def test_three_of_a_kind(lower, dice):
 	print(lower.three_of_k)
 	print(lower.four_of_k)
-	lower.of_a_kind(dice)
+	lower.three_of_a_kind(dice)
 	print(lower.score_dict)	
+	# print(lower.three_of_k)
+	# print(lower.four_of_k)
+
+def test_four_of_a_kind(lower, dice):
 	print(lower.three_of_k)
 	print(lower.four_of_k)
+	lower.four_of_a_kind(dice)
+	print(lower.score_dict)	
 
 # print(upper_1.score_dict)
 # turn_1.roll()

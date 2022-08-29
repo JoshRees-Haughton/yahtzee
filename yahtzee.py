@@ -117,6 +117,14 @@ class UpperScore:
 			print("No dice match selection, please select again.")
 
 class LowerScore:
+
+	three_of_k = 0
+	four_of_k = 0
+	f_h = 0
+	s_s = 0
+	l_s = 0
+	ytz = 0
+
 	def __init__(self):
 		self.score_dict = {"Three Of A Kind": 0, 
 						   "Four Of A Kind": 0,
@@ -127,31 +135,21 @@ class LowerScore:
 						   "Chance": 0,
 						   "Yahtzee Bonus": 0}
 
-	three_of_k = 0
-	four_of_k = 0
-	f_h = 0
-	s_s = 0
-	l_s = 0
-	ytz = 0
+
 
 	#ADD ERROR MESSAGE FOR SCORE ALREADY PRESENT
-	#TRY TO UPDATE TO TAKE VALUES FROM DICT
-	def of_a_kind(self, dice):
-		score_of_a_kind = 0
-		counter = 0
+	def three_of_a_kind(self, dice):
+		score_of_a_kind = sum(dice)
 		for die in dice:
-			score_of_a_kind += die
-			print (score_of_a_kind)
-		for die in dice:
-			if dice.count(die) > 2:
-				counter += 1
-		print(counter)
-		if counter == 3 and self.three_of_k == 0:
-			self.three_of_k += score_of_a_kind
-			print(self.three_of_k)
-		elif counter == 4 and self.four_of_k== 0:
-			self.four_of_k += score_of_a_kind		
+			if dice.count(die) == 3 and self.score_dict["Three Of A Kind"] == 0:
+				self.score_dict["Three Of A Kind"] = score_of_a_kind
 
+	#ADD ERROR MESSAGE FOR SCORE ALREADY PRESENT
+	def four_of_a_kind(self, dice):
+		score_of_a_kind = sum(dice)
+		for die in dice:
+			if dice.count(die) == 4 and self.score_dict["Four Of A Kind"] == 0:
+				self.score_dict["Four Of A Kind"] = score_of_a_kind	
 
 		
 
@@ -247,5 +245,7 @@ test_lower_1 = LowerScore()
 	#Tests the score_upper() method, with the Upper Score dictionary getting printed before and after a roll and a scoring of 1
 	# test_score_upper = y_test.test_score_upper(test_upper_1, test_turn_1, 1)
 
-dice_rolled = roll_input(test_turn_1)
-test_of_a_kind = y_test.test_of_a_kind(test_lower_1, dice_rolled)
+	#Tests the two methods three_of_a_kind and four_of_a_kind
+	# dice_rolled = roll_input(test_turn_1)
+	# test_three_of_a_kind = y_test.test_three_of_a_kind(test_lower_1, dice_rolled)
+	# test_four_of_a_kind = y_test.test_four_of_a_kind(test_lower_1, dice_rolled)
