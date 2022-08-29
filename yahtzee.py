@@ -154,13 +154,13 @@ class LowerScore:
 		
 
 	# #ADD ERROR MESSAGE FOR SCORE ALREADY PRESENT
-	# def full_house(self, dice):
-	# 	for die in dice:
-	# 		if dice.count(die) == 3:
-	# 			dice_removed = [value for value in dice if value != die]
-	# 			for die_new in dice_removed:
-	# 				if dice_removed.count(die_new) == 2 and self.score_dict["Full House" == 0:
-	# 					self.score_dict["Full House"] += 50
+	def full_house(self, dice):
+		for die in dice:
+			if dice.count(die) == 3:
+				dice_removed = [value for value in dice if value != die]
+				for die_new in dice_removed:
+					if dice_removed.count(die_new) == 2 and self.score_dict["Full House"] == 0:
+						self.score_dict["Full House"] = 50
 
 
 
@@ -249,3 +249,7 @@ test_lower_1 = LowerScore()
 	# dice_rolled = roll_input(test_turn_1)
 	# test_three_of_a_kind = y_test.test_three_of_a_kind(test_lower_1, dice_rolled)
 	# test_four_of_a_kind = y_test.test_four_of_a_kind(test_lower_1, dice_rolled)
+
+	#Tests the full_house() method from the LowerScore section	
+	# dice_rolled = roll_input(test_turn_1)
+	# test_full_house = y_test.test_full_house(test_lower_1, dice_rolled)

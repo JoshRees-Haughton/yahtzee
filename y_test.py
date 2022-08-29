@@ -47,13 +47,16 @@ def test_three_of_a_kind(lower, dice):
 	print(lower.four_of_k)
 	lower.three_of_a_kind(dice)
 	print(lower.score_dict)	
-	# print(lower.three_of_k)
-	# print(lower.four_of_k)
 
 def test_four_of_a_kind(lower, dice):
 	print(lower.three_of_k)
 	print(lower.four_of_k)
 	lower.four_of_a_kind(dice)
+	print(lower.score_dict)
+
+def test_full_house(lower, dice):
+	print(lower.score_dict)	
+	lower.full_house(dice)
 	print(lower.score_dict)	
 
 # print(upper_1.score_dict)
