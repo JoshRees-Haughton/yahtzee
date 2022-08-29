@@ -1,15 +1,15 @@
 
 
 def test_Die(die):
-	print(die)
-	print(die.value)
-	print(die.rolled)
-	print(die.dice_id)
+	print(die) #Shows the value of the __repr__ method for the class
+	print(die.value) #Checks the attributes of the class
+	print(die.rolled) #Checks the attributes of the class
+	print(die.dice_id) #Checks the attributes of the class
 
 def test_roll_die(die):
-	print(die)
-	die.roll_die()
-	print(die)
+	print(die) #Print the die to see all the statuses
+	die.roll_die() #Perform the method
+	print(die) #Print the die again, to check that everything has updated
 
 def test_Turn(turn):
 	print(turn)
