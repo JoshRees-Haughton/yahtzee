@@ -134,11 +134,25 @@ class LowerScore:
 						   "Yahtzee": 0,
 						   "Chance": 0,
 						   "Yahtzee Bonus": 0}
+		self.lower_total = sum((self.score_dict).values())
 
-	#ADD CONTENT
-	def show_scores(self):
-		pass
 
+	#NEED TO FORMAT MORE
+	def show_scores_lower(self):
+		#Prints the current scores for the player. Get scores from score_dict
+
+		print("Lower Scores")
+		print("############")
+		print("Three Of A Kind: {three_o_k}".format(three_o_k = self.score_dict["Three Of A Kind"]))
+		print("Four Of A Kind: {four_o_k}".format(four_o_k = self.score_dict["Four Of A Kind"]))
+		print("Full House: {full_house}".format(full_house = self.score_dict["Full House"]))
+		print("Small Straight: {sm_strt}".format(sm_strt = self.score_dict["Small Straight":]))
+		print("Large Straight: {lg_strt}".format(lg_strt = self.score_dict["Large Straight"]))
+		print("Yahtzee: {yahtzee}".format(yahtzee = self.score_dict["Yahtzee"]))
+		print("Chance: {chance}".format(chance = self.score_dict["Chance"]))
+		print("Yahtzee Bonus: {yahtzee_bonus}".format(yahtzee_bonus = self.score_dict["Yahtzee Bonus"]))
+		print("Lower Total {lower_total}".format(lower_total = self.lower_total))
+		print("")
 
 
 	#ADD ERROR MESSAGE FOR SCORE ALREADY PRESENT OR NOT APPLICABLE
