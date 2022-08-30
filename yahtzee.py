@@ -252,10 +252,7 @@ def roll_input(turn):
 # turn_1.roll([die_2, die_4])
 # print(turn_1)
 
-# dice_after_roll = roll_input(turn_1)
-# upper_1.score_upper(dice_after_roll, 1)
-# print(upper_1.score_dict)
-# upper_1.show_scores()
+
 
 
 
@@ -263,6 +260,11 @@ def roll_input(turn):
 test_turn_1 = Turn()
 test_upper_1 = UpperScore()
 test_lower_1 = LowerScore()
+
+# dice_after_roll = roll_input(test_turn_1)
+# test_upper_1.score_upper(dice_after_roll, 1)
+# print(test_upper_1.score_dict)
+# test_upper_1.show_scores()
 
 
 
@@ -281,6 +283,15 @@ test_lower_1 = LowerScore()
 
 	#Tests the class UpperScore and its attributes.
 	#test_UpperScore = y_test.test_UpperScore(test_upper_1) 
+
+	#Tests show_scores function, with the Upper Score being printed before and after the turn.
+	#FORCING A VALUE OF 1, NEED TO EXPAND
+	# print(test_upper_1.score_dict)
+	# dice_after_roll = roll_input(test_turn_1)
+	# test_upper_1.score_upper(dice_after_roll, 1)
+	# print(test_upper_1.score_dict)
+	# test_upper_1.show_scores()
+
 
 	#Tests the score_upper() method, with the Upper Score dictionary getting printed before and after a roll and a scoring of 1
 	# test_score_upper = y_test.test_score_upper(test_upper_1, test_turn_1, 1)

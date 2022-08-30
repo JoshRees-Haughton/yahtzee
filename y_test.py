@@ -5,17 +5,14 @@ def test_Die(die):
 	print(die.value) #Checks the attributes of the class
 	print(die.rolled) #Checks the attributes of the class
 	print(die.dice_id) #Checks the attributes of the class
-
 def test_roll_die(die):
 	print(die) #Print the die to see all the statuses
 	die.roll_die() #Perform the method
 	print(die) #Print the die again, to check that everything has updated
-
 def test_Turn(turn):
 	print(turn)
 	print(turn.counter)
 	print(turn.dice_saved)
-
 def test_roll(turn, die1, die2):
 	print(turn.roll())
 	print(turn)
@@ -23,7 +20,6 @@ def test_roll(turn, die1, die2):
 	print(turn)
 	print(turn.roll(die2))
 	print(turn)
-
 def test_UpperScore(upper):
 	print(upper)
 	print(upper.score_dict)
@@ -35,9 +31,12 @@ def test_UpperScore(upper):
 	print(upper.sixes)
 	print(upper.total)
 
-#ADD CONTENT
-def test_show_scores(upper):
-	pass	
+#CAN'T GET TO WORK PROPERLY, INVESTIGATE
+def test_show_scores(upper, turn):
+	dice_after_roll = roll_input(turn)
+	upper.score_upper(dice_after_roll, 1)
+	print(upper.score_dict)
+	upper.show_scores()
 
 def test_score_upper(upper, turn, num):
 	print(upper.score_dict)
@@ -49,34 +48,29 @@ def test_score_upper(upper, turn, num):
 #ADD CONTENT
 def test_LowerScore(lower):
 	pass
-
+	
 def test_three_of_a_kind(lower, dice):
 	print(lower.three_of_k)
 	print(lower.four_of_k)
 	lower.three_of_a_kind(dice)
 	print(lower.score_dict)	
-
 def test_four_of_a_kind(lower, dice):
 	print(lower.three_of_k)
 	print(lower.four_of_k)
 	lower.four_of_a_kind(dice)
 	print(lower.score_dict)
-
 def test_full_house(lower, dice):
 	print(lower.score_dict)	
 	lower.full_house(dice)
 	print(lower.score_dict)	
-
 def test_sm_straight(lower, dice):
 	print(lower.score_dict)
 	lower.sm_straight(dice)
 	print(lower.score_dict)	
-
 def test_lg_straight(lower, dice):
 	print(lower.score_dict)
 	lower.lg_straight(dice)
 	print(lower.score_dict)
-
 def test_yahtzee(lower, dice1, dice2):
 	print(lower.score_dict)
 	lower.yahtzee(dice1)
