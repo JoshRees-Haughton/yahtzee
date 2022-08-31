@@ -44,11 +44,10 @@ def test_score_upper(upper, turn, num):
 	print(dice_after_roll)
 	upper.score_upper(dice_after_roll, num)
 	print(upper.score_dict)
-
-#ADD CONTENT
 def test_LowerScore(lower):
-	pass
-	
+	print(lower)
+	print(lower.score_dict)
+	print(lower.lower_total)
 def test_three_of_a_kind(lower, dice):
 	print(lower.three_of_k)
 	print(lower.four_of_k)

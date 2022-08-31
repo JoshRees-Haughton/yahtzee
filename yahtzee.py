@@ -1,6 +1,20 @@
 import random
 import y_test
 
+class Game:
+
+	game_number = 0
+	high_score = 0
+	high_score_player = ""
+
+	def __init__(self, player):
+		self.player = player
+		self.game_score = 0
+		self.game_complete = False
+
+	def __repr__(self):
+		return "This is game number {game_number}, the player is {player} and the current high score is {high_score}, held by {high_score_player}.".format(game_number = self.game_number, player = self.player, high_score = self.high_score, high_score_player = self.high_score_player)
+			
 class Die:
 	#Defines each of the dice as an object, with 6 possible values
 	values = [1, 2, 3, 4, 5, 6]
@@ -78,6 +92,7 @@ class UpperScore:
 		self.fives = self.score_dict[5][1]
 		self.sixes = self.score_dict[6][1]
 		self.total = 0
+		self.complete = False
 
 
 	#SHOULD FORMAT THIS MORE FOR PLAYER
@@ -135,6 +150,11 @@ class LowerScore:
 						   "Chance": 0,
 						   "Yahtzee Bonus": 0}
 		self.lower_total = sum((self.score_dict).values())
+		self.complete = False
+
+		#SHOULD FORMAT THIS MORE FOR PLAYER
+	def __repr__(self):
+		return "The current scores for the Lower Section are {score_dict}, with a total of {total}".format(score_dict = self.score_dict, total = self.lower_total)
 
 
 	#NEED TO FORMAT MORE
@@ -202,8 +222,6 @@ class LowerScore:
 				self.score_dict["Yahtzee Bonus"] += 100
 
 
-
-
 #MIGHT BE ABLE TO REFACTOR INTO OTHER PARTS OF THE CODE
 def dice_from_id(id_string):
 	#Function to convert a string of numbers into a list of dice to be used in other functions 
@@ -235,38 +253,19 @@ def roll_input(turn):
 		return turn.dice_saved
 
 
-# upper_1 = UpperScore()
-# print(upper_1)
-# upper_1.show_scores()
-
-# turn_1 = Turn()
-# print(upper_1.score_dict)
-# turn_1.roll()
-# print(turn_1)
-# turn_1.roll([die_1, die_3])
-# print(turn_1)
-# # turn_1.roll_2()
-# # turn_1.roll_3()
-# turn_1.roll([die_2, die_4])
-# print(turn_1)
-# turn_1.roll([die_2, die_4])
-# print(turn_1)
+# while True:
+# 	player = input("Please enter your name: ")
+# 	game_play = Game(player)
 
 
 
 
 
 #Test class instances
+test_game_1 = Game("Josh")
 test_turn_1 = Turn()
 test_upper_1 = UpperScore()
 test_lower_1 = LowerScore()
-
-# dice_after_roll = roll_input(test_turn_1)
-# test_upper_1.score_upper(dice_after_roll, 1)
-# print(test_upper_1.score_dict)
-# test_upper_1.show_scores()
-
-
 
 #Tests
 	#Tests printing out Die class and all its attributes
@@ -292,9 +291,11 @@ test_lower_1 = LowerScore()
 	# print(test_upper_1.score_dict)
 	# test_upper_1.show_scores()
 
-
 	#Tests the score_upper() method, with the Upper Score dictionary getting printed before and after a roll and a scoring of 1
 	# test_score_upper = y_test.test_score_upper(test_upper_1, test_turn_1, 1)
+
+	# Tests the class LowerScore and its attributes
+	# test_LowerScore = y_test.test_LowerScore(test_lower_1)
 
 	#Tests the two methods three_of_a_kind and four_of_a_kind
 	# dice_rolled = roll_input(test_turn_1)
