@@ -78,20 +78,20 @@ class UpperScore:
 	#A class for the scoring of the upper section of the game, with a variable for each number and a total
 
 	def __init__(self):
-		self.score_dict = {1: ["Ones", 0], 
-		      		  2: ["Twos", 0],
-		      		  3: ["Threes", 0], 
-		      		  4: ["Fours", 0],
-		      		  5: ["Fives", 0], 
-		      		  6: ["Sixes", 0],}
+		self.score_dict = {"Ones": 0, 
+		      		       "Twos": 0,
+		      		  	   "Threes": 0,
+		      		       "Fours": 0,
+		      		  	   "Fives": 0,
+		      		  	   "Sixes": 0,}
 		#CHECK IF FIRST SQUARE BRACKET IS USING THE INDEX OR VALUE, AND CHECK IF ACTUALLY NEEDED FOR CODE
-		self.ones = self.score_dict[1][1]
-		self.twos =  self.score_dict[2][1]
-		self.threes = self.score_dict[3][1]
-		self.fours = self.score_dict[4][1]
-		self.fives = self.score_dict[5][1]
-		self.sixes = self.score_dict[6][1]
-		self.score_dict_new = {"Ones": self.ones, "Twos": self.twos, "Threes": self.threes, "Fours": self.fours, "Fives": self.fives, "Sixes": self.sixes}
+		# self.ones = self.score_dict[1][1]
+		# self.twos =  self.score_dict[2][1]
+		# self.threes = self.score_dict[3][1]
+		# self.fours = self.score_dict[4][1]
+		# self.fives = self.score_dict[5][1]
+		# self.sixes = self.score_dict[6][1]
+		# self.score_dict_new = {"Ones": self.ones, "Twos": self.twos, "Threes": self.threes, "Fours": self.fours, "Fives": self.fives, "Sixes": self.sixes}
 		self.total = 0
 		self.complete = False
 
@@ -107,26 +107,28 @@ class UpperScore:
 
 		print("Upper Scores")
 		print("############")
-		print("Ones: {ones}".format(ones = self.score_dict[1][1]))
-		print("Twos: {twos}".format(twos = self.score_dict[2][1]))
-		print("Threes: {threes}".format(threes = self.score_dict[3][1]))
-		print("Fours: {fours}".format(fours = self.score_dict[4][1]))
-		print("Fives: {fives}".format(fives = self.score_dict[5][1]))
-		print("Sixes: {sixes}".format(sixes = self.score_dict[6][1]))
+		print("Ones: {ones}".format(ones = self.score_dict["Ones"]))
+		print("Twos: {twos}".format(twos = self.score_dict["Twos"]))
+		print("Threes: {threes}".format(threes = self.score_dict["Threes"]))
+		print("Fours: {fours}".format(fours = self.score_dict["Fours"]))
+		print("Fives: {fives}".format(fives = self.score_dict["Fives"]))
+		print("Sixes: {sixes}".format(sixes = self.score_dict["Sixes"]))
 		print("Total: {total}".format(total = self.total))
 		print("")
 
 	#CHECK FOR CASE WHERE NONE MATCH
 	def score_upper(self, dice, num):
 		#Method that takes a list of dice, and the number from the Upper Section to score against.
-		if self.score_dict[num][1] != 0:
+		upper_score_ref = {1: "Ones", 2: "Twos", 3: "Threes", 4: "Fours", 5: "Fives", 6: "Sixes"}
+		upper_score_val = upper_score_ref[num]
+		if self.score_dict[upper_score_val] != 0:
 			print("Number already has score, please select again.")
 			exit() #UPDATE THIS TO RETRY
 		else:	 
 			for value in dice:
 				if value == num:
 				#Loops through the dice, and checks if any match the number in the argument. 
-					self.score_dict[num][1] += value
+					self.score_dict[upper_score_val] += value
 					self.total += value
 					#Add each to the score (as the score is just a multiple of the value)	
 		if num not in dice:
@@ -261,8 +263,8 @@ def roll_input(turn):
 def show_available_scores(UpperScore, LowerScore):
 	print("Upper Scores")
 	print("############")
-	for upper_key in UpperScore.score_dict_new:
-		if UpperScore.score_dict_new[upper_key] == 0:
+	for upper_key in UpperScore.score_dict:
+		if UpperScore.score_dict[upper_key] == 0:
 			print(upper_key + ": 0")
 	print("")			
 	print("Lower Scores")
@@ -294,6 +296,10 @@ test_game_1 = Game("Josh")
 test_turn_1 = Turn()
 test_upper_1 = UpperScore()
 test_lower_1 = LowerScore()
+
+# print(test_upper_1)
+# test_upper_1.show_scores()
+
 
 show_available_scores(test_upper_1, test_lower_1)
 
