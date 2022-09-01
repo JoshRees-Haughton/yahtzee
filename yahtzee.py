@@ -258,7 +258,8 @@ def roll_input(turn):
 # 	game_play = Game(player)
 
 
-
+def input_score(dice):
+	select_score = input("Please input the field you wish to enter a score for: ")
 
 
 #Test class instances
