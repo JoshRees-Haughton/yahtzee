@@ -257,9 +257,22 @@ def roll_input(turn):
 # 	player = input("Please enter your name: ")
 # 	game_play = Game(player)
 
-
+#NEED TO MAKE WORK WITH DYNAMIC CLASS
 def input_score(dice):
+	score_upper_list =  ["1", "2", "3", "4", "5", "6"]
+	input_score_lower_dict = {"tk": test_lower_1.three_of_a_kind, 
+							  "fk": test_lower_1.four_of_a_kind, 
+							  "fh": test_lower_1.full_house, 
+							  "sm": test_lower_1.sm_straight, 
+							  "lg": test_lower_1.lg_straight, 
+							  "yz": test_lower_1.yahtzee}
 	select_score = input("Please input the field you wish to enter a score for: ")
+	if select_score in score_upper_list:
+		test_upper_1.score_upper(dice, int(select_score))
+	else:
+		input_score_lower_dict[select_score](dice)
+
+
 
 
 #Test class instances
@@ -267,6 +280,11 @@ test_game_1 = Game("Josh")
 test_turn_1 = Turn()
 test_upper_1 = UpperScore()
 test_lower_1 = LowerScore()
+
+dice_rolled = roll_input(test_turn_1)
+input_score(dice_rolled)
+print(test_upper_1)
+print(test_lower_1)
 
 #Tests
 	#Tests printing out Die class and all its attributes
