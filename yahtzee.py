@@ -91,6 +91,7 @@ class UpperScore:
 		self.fours = self.score_dict[4][1]
 		self.fives = self.score_dict[5][1]
 		self.sixes = self.score_dict[6][1]
+		self.score_dict_new = {"Ones": self.ones, "Twos": self.twos, "Threes": self.threes, "Fours": self.fours, "Fives": self.fives, "Sixes": self.sixes}
 		self.total = 0
 		self.complete = False
 
@@ -257,6 +258,20 @@ def roll_input(turn):
 # 	player = input("Please enter your name: ")
 # 	game_play = Game(player)
 
+def show_available_scores(UpperScore, LowerScore):
+	print("Upper Scores")
+	print("############")
+	for upper_key in UpperScore.score_dict_new:
+		if UpperScore.score_dict_new[upper_key] == 0:
+			print(upper_key + ": 0")
+	print("")			
+	print("Lower Scores")
+	print("############")
+	for lower_key in LowerScore.score_dict:
+		if LowerScore.score_dict[lower_key] == 0:
+			print(lower_key + ": 0")
+
+
 #NEED TO MAKE WORK WITH DYNAMIC CLASS
 def input_score(dice):
 	score_upper_list =  ["1", "2", "3", "4", "5", "6"]
@@ -274,17 +289,21 @@ def input_score(dice):
 
 
 
-
 #Test class instances
 test_game_1 = Game("Josh")
 test_turn_1 = Turn()
 test_upper_1 = UpperScore()
 test_lower_1 = LowerScore()
 
+show_available_scores(test_upper_1, test_lower_1)
+
+
 dice_rolled = roll_input(test_turn_1)
 input_score(dice_rolled)
 print(test_upper_1)
 print(test_lower_1)
+
+show_available_scores(test_upper_1, test_lower_1)
 
 #Tests
 	#Tests printing out Die class and all its attributes
