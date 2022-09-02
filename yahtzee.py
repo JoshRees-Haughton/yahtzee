@@ -20,7 +20,7 @@ class Die:
 	values = [1, 2, 3, 4, 5, 6]
 
 	def __init__(self, dice_id):
-		#A die is initialized and given an id
+		#A die is initialized and given an ids
 		self.value = 0
 		self.rolled = False
 		self.dice_id = dice_id
@@ -84,14 +84,6 @@ class UpperScore:
 		      		       "Fours": 0,
 		      		  	   "Fives": 0,
 		      		  	   "Sixes": 0,}
-		#CHECK IF FIRST SQUARE BRACKET IS USING THE INDEX OR VALUE, AND CHECK IF ACTUALLY NEEDED FOR CODE
-		# self.ones = self.score_dict[1][1]
-		# self.twos =  self.score_dict[2][1]
-		# self.threes = self.score_dict[3][1]
-		# self.fours = self.score_dict[4][1]
-		# self.fives = self.score_dict[5][1]
-		# self.sixes = self.score_dict[6][1]
-		# self.score_dict_new = {"Ones": self.ones, "Twos": self.twos, "Threes": self.threes, "Fours": self.fours, "Fives": self.fives, "Sixes": self.sixes}
 		self.total = 0
 		self.complete = False
 
@@ -210,7 +202,7 @@ class LowerScore:
 			if set(die_list).issubset(set(dice)) and self.score_dict["Small Straight"] == 0:
 				self.score_dict["Small Straight"] = 30
 
-		#ADD ERROR MESSAGE FOR SCORE ALREADY PRESENT OR NOT APPLICABLE
+	#ADD ERROR MESSAGE FOR SCORE ALREADY PRESENT OR NOT APPLICABLE
 	def lg_straight(self, dice):
 		lg_straight_lists = [[1, 2, 3, 4, 5], [2, 3, 4, 5, 6]]
 		for die_list in lg_straight_lists:
@@ -223,6 +215,11 @@ class LowerScore:
 				self.score_dict["Yahtzee"] = 50
 			else:
 				self.score_dict["Yahtzee Bonus"] += 100
+
+	#ADD ERROR MESSAGE FOR SCORE ALREADY PRESENT OR NOT APPLICABLE
+	def chance(self, dice):
+		if self.score_dict["Chance"] == 0:
+			self.score_dict["Chance"] = sum(dice)
 
 
 #MIGHT BE ABLE TO REFACTOR INTO OTHER PARTS OF THE CODE
@@ -282,8 +279,9 @@ def input_score(dice):
 							  "fh": test_lower_1.full_house, 
 							  "sm": test_lower_1.sm_straight, 
 							  "lg": test_lower_1.lg_straight, 
-							  "yz": test_lower_1.yahtzee}
-	select_score = input("Please input the field you wish to enter a score for: ")
+							  "yz": test_lower_1.yahtzee,
+							  "ch": test_lower_1.chance}
+	select_score = input("Please input the field you want to enter a score for: ")
 	if select_score in score_upper_list:
 		test_upper_1.score_upper(dice, int(select_score))
 	else:
