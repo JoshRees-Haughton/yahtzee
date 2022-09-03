@@ -253,10 +253,6 @@ def roll_input(turn):
 		return turn.dice_saved
 
 
-# while True:
-# 	player = input("Please enter your name: ")
-# 	game_play = Game(player)
-
 def show_available_scores(UpperScore, LowerScore):
 	print("Upper Scores")
 	print("############")
@@ -272,20 +268,28 @@ def show_available_scores(UpperScore, LowerScore):
 
 
 #NEED TO MAKE WORK WITH DYNAMIC CLASS
-def input_score(dice):
+def input_score(dice, UpperScore, LowerScore):
 	score_upper_list =  ["1", "2", "3", "4", "5", "6"]
-	input_score_lower_dict = {"tk": test_lower_1.three_of_a_kind, 
-							  "fk": test_lower_1.four_of_a_kind, 
-							  "fh": test_lower_1.full_house, 
-							  "sm": test_lower_1.sm_straight, 
-							  "lg": test_lower_1.lg_straight, 
-							  "yz": test_lower_1.yahtzee,
-							  "ch": test_lower_1.chance}
+	input_score_lower_dict = {"tk": LowerScore.three_of_a_kind, 
+							  "fk": LowerScore.four_of_a_kind, 
+							  "fh": LowerScore.full_house, 
+							  "sm": LowerScore.sm_straight, 
+							  "lg": LowerScore.lg_straight, 
+							  "yz": LowerScore.yahtzee,
+							  "ch": LowerScore.chance}
 	select_score = input("Please input the field you want to enter a score for: ")
 	if select_score in score_upper_list:
-		test_upper_1.score_upper(dice, int(select_score))
+		UpperScore.score_upper(dice, int(select_score))
 	else:
 		input_score_lower_dict[select_score](dice)
+
+
+# while True:
+
+def start_game():
+	player = input("Please enter your name: ")
+	game_play = Game(player)
+
 
 
 
