@@ -103,12 +103,13 @@ class UpperScore:
 		print("")
 		print("Upper Scores")
 		print("############")
-		print("Ones: {ones}".format(ones = self.score_dict["Ones"]))
-		print("Twos: {twos}".format(twos = self.score_dict["Twos"]))
-		print("Threes: {threes}".format(threes = self.score_dict["Threes"]))
-		print("Fours: {fours}".format(fours = self.score_dict["Fours"]))
-		print("Fives: {fives}".format(fives = self.score_dict["Fives"]))
-		print("Sixes: {sixes}".format(sixes = self.score_dict["Sixes"]))
+		print("(1) Ones: {ones}".format(ones = self.score_dict["Ones"]))
+		print("(2) Twos: {twos}".format(twos = self.score_dict["Twos"]))
+		print("(3) Threes: {threes}".format(threes = self.score_dict["Threes"]))
+		print("(4) Fours: {fours}".format(fours = self.score_dict["Fours"]))
+		print("(5) Fives: {fives}".format(fives = self.score_dict["Fives"]))
+		print("(6) Sixes: {sixes}".format(sixes = self.score_dict["Sixes"]))
+		print("--------------")
 		print("Total: {total}".format(total = self.total))
 		print("")
 
@@ -134,13 +135,6 @@ class UpperScore:
 
 class LowerScore:
 
-	three_of_k = 0
-	four_of_k = 0
-	f_h = 0
-	s_s = 0
-	l_s = 0
-	ytz = 0
-
 	def __init__(self):
 		self.score_dict = {"Three Of A Kind": 0, 
 						   "Four Of A Kind": 0,
@@ -165,14 +159,15 @@ class LowerScore:
 		print("")
 		print("Lower Scores")
 		print("############")
-		print("Three Of A Kind: {three_o_k}".format(three_o_k = self.score_dict["Three Of A Kind"]))
-		print("Four Of A Kind: {four_o_k}".format(four_o_k = self.score_dict["Four Of A Kind"]))
-		print("Full House: {full_house}".format(full_house = self.score_dict["Full House"]))
-		print("Small Straight: {sm_strt}".format(sm_strt = self.score_dict["Small Straight"]))
-		print("Large Straight: {lg_strt}".format(lg_strt = self.score_dict["Large Straight"]))
-		print("Yahtzee: {yahtzee}".format(yahtzee = self.score_dict["Yahtzee"]))
-		print("Chance: {chance}".format(chance = self.score_dict["Chance"]))
+		print("(7) Three Of A Kind: {three_o_k}".format(three_o_k = self.score_dict["Three Of A Kind"]))
+		print("(8) Four Of A Kind: {four_o_k}".format(four_o_k = self.score_dict["Four Of A Kind"]))
+		print("(9) Full House: {full_house}".format(full_house = self.score_dict["Full House"]))
+		print("(10) Small Straight: {sm_strt}".format(sm_strt = self.score_dict["Small Straight"]))
+		print("(11) Large Straight: {lg_strt}".format(lg_strt = self.score_dict["Large Straight"]))
+		print("(12) Yahtzee: {yahtzee}".format(yahtzee = self.score_dict["Yahtzee"]))
+		print("(13) Chance: {chance}".format(chance = self.score_dict["Chance"]))
 		# print("Yahtzee Bonus: {yahtzee_bonus}".format(yahtzee_bonus = self.score_dict["Yahtzee Bonus"]))
+		print("--------------")
 		print("Lower Total {lower_total}".format(lower_total = self.lower_total))
 		print("")
 
@@ -268,34 +263,39 @@ def roll_input(turn):
 
 
 def show_available_scores(Game):
+	score_number_dict = {"Ones": "(1)", "Twos": "(2)", "Threes": "(3)", "Fours": "(4 )", "Fives": "(5)", "Sixes": "(6)", 
+				         "Three Of A Kind": "(7)", "Four Of A Kind": "(8)", "Full House": "(9)", "Small Straight": "(10)", "Large Straight": "(11)", "Yahtzee": "(12)", "Chance": "(13)"} 
 	print("Upper Scores")
 	print("############")
 	for upper_key in Game.UpperScore.score_dict:
 		if Game.UpperScore.score_dict[upper_key] == 0:
-			print(upper_key + ": 0")
+			print(score_number_dict[upper_key] + " " + upper_key)
 	print("")			
 	print("Lower Scores")
 	print("############")
 	for lower_key in Game.LowerScore.score_dict:
 		if Game.LowerScore.score_dict[lower_key] == 0:
-			print(lower_key + ": 0")
+			print(score_number_dict[lower_key] + " " + lower_key)
 	print("")
 
 
 def input_score(dice, Game):
 	score_upper_list =  ["1", "2", "3", "4", "5", "6"]
-	input_score_lower_dict = {"tk": Game.LowerScore.three_of_a_kind, 
-							  "fk": Game.LowerScore.four_of_a_kind, 
-							  "fh": Game.LowerScore.full_house, 
-							  "sm": Game.LowerScore.sm_straight, 
-							  "lg": Game.LowerScore.lg_straight, 
-							  "yz": Game.LowerScore.yahtzee,
-							  "ch": Game.LowerScore.chance}
-	select_score = input("Please input the field you want to enter a score for: ")
+	#A dictionary to match the players input to the relavent LowerScore functions
+	input_score_lower_dict = {"l7": Game.LowerScore.three_of_a_kind, 
+							  "l8": Game.LowerScore.four_of_a_kind, 
+							  "l9": Game.LowerScore.full_house, 
+							  "l10": Game.LowerScore.sm_straight, 
+							  "l11": Game.LowerScore.lg_straight, 
+							  "l12": Game.LowerScore.yahtzee,
+							  "l13": Game.LowerScore.chance}
+	select_score = input("Please input the number shown in brackets for the field you want to enter a score for: ")
+	#Takes the players input and uses as the argument if scoring the Upper section
 	if select_score in score_upper_list:
 		Game.UpperScore.score_upper(dice, int(select_score))
+	#Takes the players input, concatinated with "l" at the front, and uses the dictionary to match with the correct Lower section method if scoring the Lower section
 	else:
-		input_score_lower_dict[select_score](dice)
+		input_score_lower_dict["l" + select_score](dice) #Put "l" at the front as I was getting an error if it was just a number
 
 
 
