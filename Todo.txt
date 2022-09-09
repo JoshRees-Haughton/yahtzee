@@ -1,0 +1,4 @@
+TODO
+
+- What happens if you have to score something zero? Need to make sure if doesn't let you score it again.
+- Typo in the "Available Scores" part for "Fours"
