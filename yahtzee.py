@@ -9,6 +9,8 @@ class Game:
 
 	def __init__(self, player):
 		self.player = player
+		self.UpperScore = UpperScore()
+		self.LowerScore = LowerScore()
 		self.game_score = 0
 		self.game_complete = False
 
@@ -84,6 +86,7 @@ class UpperScore:
 		      		       "Fours": 0,
 		      		  	   "Fives": 0,
 		      		  	   "Sixes": 0,}
+		self.upper_bonus = 0
 		self.total = 0
 		self.complete = False
 
@@ -97,6 +100,7 @@ class UpperScore:
 	def show_scores(self):
 		#Prints the current scores for the player. Get scores from score_dict
 
+		print("")
 		print("Upper Scores")
 		print("############")
 		print("Ones: {ones}".format(ones = self.score_dict["Ones"]))
@@ -125,6 +129,8 @@ class UpperScore:
 					#Add each to the score (as the score is just a multiple of the value)	
 		if num not in dice:
 			print("No dice match selection, please select again.")
+		if not (0 in self.score_dict.values()):
+			self.complete = True
 
 class LowerScore:
 
@@ -142,9 +148,9 @@ class LowerScore:
 						   "Small Straight": 0,
 						   "Large Straight": 0,
 						   "Yahtzee": 0,
-						   "Chance": 0,
-						   "Yahtzee Bonus": 0}
-		self.lower_total = sum((self.score_dict).values())
+						   "Chance": 0}
+		# self.lower_total = sum((self.score_dict).values())
+		self.lower_total = 0
 		self.complete = False
 
 		#SHOULD FORMAT THIS MORE FOR PLAYER
@@ -156,16 +162,17 @@ class LowerScore:
 	def show_scores_lower(self):
 		#Prints the current scores for the player. Get scores from score_dict
 
+		print("")
 		print("Lower Scores")
 		print("############")
 		print("Three Of A Kind: {three_o_k}".format(three_o_k = self.score_dict["Three Of A Kind"]))
 		print("Four Of A Kind: {four_o_k}".format(four_o_k = self.score_dict["Four Of A Kind"]))
 		print("Full House: {full_house}".format(full_house = self.score_dict["Full House"]))
-		print("Small Straight: {sm_strt}".format(sm_strt = self.score_dict["Small Straight":]))
+		print("Small Straight: {sm_strt}".format(sm_strt = self.score_dict["Small Straight"]))
 		print("Large Straight: {lg_strt}".format(lg_strt = self.score_dict["Large Straight"]))
 		print("Yahtzee: {yahtzee}".format(yahtzee = self.score_dict["Yahtzee"]))
 		print("Chance: {chance}".format(chance = self.score_dict["Chance"]))
-		print("Yahtzee Bonus: {yahtzee_bonus}".format(yahtzee_bonus = self.score_dict["Yahtzee Bonus"]))
+		# print("Yahtzee Bonus: {yahtzee_bonus}".format(yahtzee_bonus = self.score_dict["Yahtzee Bonus"]))
 		print("Lower Total {lower_total}".format(lower_total = self.lower_total))
 		print("")
 
@@ -176,6 +183,7 @@ class LowerScore:
 		for die in dice:
 			if dice.count(die) == 3 and self.score_dict["Three Of A Kind"] == 0:
 				self.score_dict["Three Of A Kind"] = score_of_a_kind
+				self.lower_total += score_of_a_kind
 
 	#ADD ERROR MESSAGE FOR SCORE ALREADY PRESENT OR NOT APPLICABLE
 	def four_of_a_kind(self, dice):
@@ -183,7 +191,7 @@ class LowerScore:
 		for die in dice:
 			if dice.count(die) == 4 and self.score_dict["Four Of A Kind"] == 0:
 				self.score_dict["Four Of A Kind"] = score_of_a_kind	
-
+				self.lower_total += score_of_a_kind
 		
 
 	#ADD ERROR MESSAGE FOR SCORE ALREADY PRESENT OR NOT APPLICABLE
@@ -194,6 +202,7 @@ class LowerScore:
 				for die_new in dice_removed:
 					if dice_removed.count(die_new) == 2 and self.score_dict["Full House"] == 0:
 						self.score_dict["Full House"] = 25
+						self.lower_total += 25
 
 	#ADD ERROR MESSAGE FOR SCORE ALREADY PRESENT OR NOT APPLICABLE
 	def sm_straight(self, dice):
@@ -201,6 +210,7 @@ class LowerScore:
 		for die_list in sm_straight_lists:
 			if set(die_list).issubset(set(dice)) and self.score_dict["Small Straight"] == 0:
 				self.score_dict["Small Straight"] = 30
+				self.lower_total += 30
 
 	#ADD ERROR MESSAGE FOR SCORE ALREADY PRESENT OR NOT APPLICABLE
 	def lg_straight(self, dice):
@@ -208,18 +218,22 @@ class LowerScore:
 		for die_list in lg_straight_lists:
 			if set(die_list).issubset(set(dice)) and self.score_dict["Large Straight"] == 0:
 				self.score_dict["Large Straight"] = 40
+				self.lower_total += 40
 
 	def yahtzee(self, dice):
 		if dice.count(dice[0]) == 5:
 			if self.score_dict["Yahtzee"] == 0:
 				self.score_dict["Yahtzee"] = 50
+				self.lower_total += 50
 			else:
-				self.score_dict["Yahtzee Bonus"] += 100
+				self.score_dict["Yahtzee"] += 100
+				self.lower_total += 100
 
 	#ADD ERROR MESSAGE FOR SCORE ALREADY PRESENT OR NOT APPLICABLE
 	def chance(self, dice):
 		if self.score_dict["Chance"] == 0:
 			self.score_dict["Chance"] = sum(dice)
+			self.lower_total += sum(dice)
 
 
 #MIGHT BE ABLE TO REFACTOR INTO OTHER PARTS OF THE CODE
@@ -253,65 +267,90 @@ def roll_input(turn):
 		return turn.dice_saved
 
 
-def show_available_scores(UpperScore, LowerScore):
+def show_available_scores(Game):
 	print("Upper Scores")
 	print("############")
-	for upper_key in UpperScore.score_dict:
-		if UpperScore.score_dict[upper_key] == 0:
+	for upper_key in Game.UpperScore.score_dict:
+		if Game.UpperScore.score_dict[upper_key] == 0:
 			print(upper_key + ": 0")
 	print("")			
 	print("Lower Scores")
 	print("############")
-	for lower_key in LowerScore.score_dict:
-		if LowerScore.score_dict[lower_key] == 0:
+	for lower_key in Game.LowerScore.score_dict:
+		if Game.LowerScore.score_dict[lower_key] == 0:
 			print(lower_key + ": 0")
+	print("")
 
 
-#NEED TO MAKE WORK WITH DYNAMIC CLASS
-def input_score(dice, UpperScore, LowerScore):
+def input_score(dice, Game):
 	score_upper_list =  ["1", "2", "3", "4", "5", "6"]
-	input_score_lower_dict = {"tk": LowerScore.three_of_a_kind, 
-							  "fk": LowerScore.four_of_a_kind, 
-							  "fh": LowerScore.full_house, 
-							  "sm": LowerScore.sm_straight, 
-							  "lg": LowerScore.lg_straight, 
-							  "yz": LowerScore.yahtzee,
-							  "ch": LowerScore.chance}
+	input_score_lower_dict = {"tk": Game.LowerScore.three_of_a_kind, 
+							  "fk": Game.LowerScore.four_of_a_kind, 
+							  "fh": Game.LowerScore.full_house, 
+							  "sm": Game.LowerScore.sm_straight, 
+							  "lg": Game.LowerScore.lg_straight, 
+							  "yz": Game.LowerScore.yahtzee,
+							  "ch": Game.LowerScore.chance}
 	select_score = input("Please input the field you want to enter a score for: ")
 	if select_score in score_upper_list:
-		UpperScore.score_upper(dice, int(select_score))
+		Game.UpperScore.score_upper(dice, int(select_score))
 	else:
 		input_score_lower_dict[select_score](dice)
 
 
-# while True:
 
-def start_game():
-	player = input("Please enter your name: ")
-	game_play = Game(player)
+#Game initialise
+player = input("Please enter your name: ")
+game_play = Game(player)
 
+# while game_play.game_complete == False:
+while game_play.UpperScore.complete == False:
+
+	#Turn
+	#"Press Enter to roll the dice"
+	turn_start = input("Press Enter to roll the dice")
+	if turn_start:
+		pass
+	#Three rolls
+	dice_rolled = roll_input(Turn())
+	#Show the final dice the remaining scores to choose from
+	show_available_scores(game_play)
+	input_score(dice_rolled, game_play)
+	#Score is selected and the scores are shown
+	# print(game_play.UpperScore)
+	# print(game_play.LowerScore)
+	game_play.UpperScore.show_scores()
+	game_play.LowerScore.show_scores_lower()
+	#Repeat
+
+#Game end
 
 
 
 #Test class instances
-test_game_1 = Game("Josh")
-test_turn_1 = Turn()
-test_upper_1 = UpperScore()
-test_lower_1 = LowerScore()
+# test_game_1 = Game("Josh")
+# test_turn_1 = Turn()
+# test_upper_1 = UpperScore()
+# test_lower_1 = LowerScore()
 
 # print(test_upper_1)
 # test_upper_1.show_scores()
 
 
-show_available_scores(test_upper_1, test_lower_1)
+# # show_available_scores(test_upper_1, test_lower_1)
+# show_available_scores(test_game_1)
 
 
-dice_rolled = roll_input(test_turn_1)
-input_score(dice_rolled)
-print(test_upper_1)
-print(test_lower_1)
+# dice_rolled = roll_input(test_turn_1)
+# # input_score(dice_rolled, test_upper_1, test_lower_1)
+# input_score(dice_rolled, test_game_1)
+# print(test_game_1.UpperScore)
+# print(test_game_1.LowerScore)
+# # print(test_upper_1)-
+# # print(test_lower_1)
 
-show_available_scores(test_upper_1, test_lower_1)
+# # show_available_scores(test_upper_1, test_lower_1)
+# show_available_scores(test_game_1)
 
 #Tests
 	#Tests printing out Die class and all its attributes
