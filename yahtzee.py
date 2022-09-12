@@ -1,8 +1,8 @@
 import random
 import y_test
 
+#Main 
 class Game:
-
 	game_number = 0
 	high_score = 0
 	high_score_player = ""
@@ -78,7 +78,6 @@ class Turn:
 
 class UpperScore:
 	#A class for the scoring of the upper section of the game, with a variable for each number and a total
-
 	def __init__(self):
 		self.score_dict = {"Ones": 0, 
 		      		       "Twos": 0,
@@ -156,7 +155,7 @@ class LowerScore:
 	def show_scores_lower(self):
 		#Prints the current scores for the player. Get scores from score_dict
 
-		print("")
+
 		print("Lower Scores")
 		print("############")
 		print("(7) Three Of A Kind: {three_o_k}".format(three_o_k = self.score_dict["Three Of A Kind"]))
@@ -241,23 +240,28 @@ def dice_from_id(id_string):
 				dice_new.append(die)
 	return dice_new
 
-
+#Function to simulate the dice rolls for a turn, with prompts to the player
 def roll_input(turn):
-	#Function to simulate the dice rolls for a turn, with prompts to the player
+	#Run until the turn's counter is 0
 	while turn.counter > 0:
-		#Run until the turn's counter is 0
+		#Prints the turn object and a message for the first two rolls
 		if turn.counter == 3:
 			print("You roll all the dice")
-			first_roll = turn.roll()
+			first_roll = turn.roll() #Variable defined as the result of the roll method from the Turn object 
 		if turn.counter == 2:
 			print(turn)
+		#Prompt to the player to choose the dice to reroll, setting as a variable turn_two_input. Then abother variable set as the result
+		#of turn_two_input as the argument of the function to convert integers to dice objects
 		turn_two_input = input("Please enter the dice to roll again (i.e. 145): ")
 		second_roll_input = dice_from_id(turn_two_input)
+		#Roll the dice chosen using second_turn_input and print the turn object showing the results
 		turn.roll(second_roll_input)
 		print(turn)
+		#Prompt to the player to choose any dice to roll again, for the last roll.
 		turn_three_input = input("Please enter the dice to roll again (i.e. 145): ")
 		third_roll_input = dice_from_id(turn_three_input)
 		turn.roll(third_roll_input)
+		#Shows the player the final dice, using the dice_saved attribute from the turn instance, and returns the dice_saved list
 		print("Your final dice are: " + str(turn.dice_saved))
 		return turn.dice_saved
 
@@ -298,13 +302,12 @@ def input_score(dice, Game):
 		input_score_lower_dict["l" + select_score](dice) #Put "l" at the front as I was getting an error if it was just a number
 
 
-
 #Game initialise
 player = input("Please enter your name: ")
-game_play = Game(player)
+game_play = Game(player)	
 
 # while game_play.game_complete == False:
-while game_play.UpperScore.complete == False:
+while game_play.UpperScore.complete == False and game_play.LowerScore.complete == False:
 
 	#Turn
 	#"Press Enter to roll the dice"
