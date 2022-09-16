@@ -80,12 +80,7 @@ class Turn:
 class UpperScore:
     #A class for the scoring of the upper section of the game, with a variable for each number and a total
     def __init__(self):
-        self.score_dict = {"Ones": 0, 
-                             "Twos": 0,
-                               "Threes": 0,
-                             "Fours": 0,
-                               "Fives": 0,
-                               "Sixes": 0,}
+        self.score_dict = {"Ones": 0, "Twos": 0, "Threes": 0, "Fours": 0, "Fives": 0, "Sixes": 0,}
         self.upper_bonus = 0
         self.total = 0
         self.complete = False
