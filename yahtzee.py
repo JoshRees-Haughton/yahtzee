@@ -190,7 +190,6 @@ class LowerScore:
         Turn.turn_scored = True
         return Turn.turn_scored
 
-    #ADD ERROR MESSAGE FOR SCORE ALREADY PRESENT OR NOT APPLICABLE
     def four_of_a_kind(self, dice, Turn):
         score_of_a_kind = sum(dice)
         for die in dice:
@@ -200,8 +199,6 @@ class LowerScore:
         Turn.turn_scored = True
         return Turn.turn_scored
         
-
-    #ADD ERROR MESSAGE FOR SCORE ALREADY PRESENT OR NOT APPLICABLE
     def full_house(self, dice, Turn):
         for die in dice:
             if dice.count(die) == 3:
@@ -213,7 +210,6 @@ class LowerScore:
         Turn.turn_scored = True
         return Turn.turn_scored
 
-    #ADD ERROR MESSAGE FOR SCORE ALREADY PRESENT OR NOT APPLICABLE
     def sm_straight(self, dice, Turn):
         sm_straight_lists = [[1, 2, 3, 4], [2, 3, 4, 5], [3, 4, 5, 6]]
         for die_list in sm_straight_lists:
@@ -223,7 +219,6 @@ class LowerScore:
         Turn.turn_scored = True
         return Turn.turn_scored
 
-    #ADD ERROR MESSAGE FOR SCORE ALREADY PRESENT OR NOT APPLICABLE
     def lg_straight(self, dice, Turn):
         lg_straight_lists = [[1, 2, 3, 4, 5], [2, 3, 4, 5, 6]]
         for die_list in lg_straight_lists:
@@ -244,7 +239,6 @@ class LowerScore:
         Turn.turn_scored = True
         return Turn.turn_scored
 
-    #ADD ERROR MESSAGE FOR SCORE ALREADY PRESENT OR NOT APPLICABLE
     def chance(self, dice, Turn):
         if self.score_dict["Chance"] == 0:
             self.score_dict["Chance"] = sum(dice)
