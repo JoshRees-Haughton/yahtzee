@@ -172,23 +172,16 @@ class LowerScore:
         print("")
 
 
-    # #ADD ERROR MESSAGE FOR SCORE ALREADY PRESENT OR NOT APPLICABLE
-    # def three_of_a_kind(self, dice, Turn):
-    #     score_of_a_kind = sum(dice)
-    #     for die in dice:
-    #         if dice.count(die) == 3 and self.score_dict["Three Of A Kind"] == 0:
-    #             self.score_dict["Three Of A Kind"] = score_of_a_kind
-    #             self.lower_total += score_of_a_kind
-    #             Turn.turn_scored = True
-    #             return Turn.turn_scored
+    #Method to score the Three Of A Kind field, taking a set of dice and a Turn instance as arguments
     def three_of_a_kind(self, dice, Turn):
-        score_of_a_kind = sum(dice)
+        score_of_a_kind = sum(dice) #Variable that sums the dice values, which will be the final score for the field
         for die in dice:
+            #Checks that the number of dice with the same value as the current dice in the loop is equal to 3, and that the field doesn't already have a score assigned
             if dice.count(die) == 3 and self.score_dict["Three Of A Kind"] == 0:
-                self.score_dict["Three Of A Kind"] = score_of_a_kind
-                self.lower_total += score_of_a_kind
-        Turn.turn_scored = True
-        return Turn.turn_scored
+                self.score_dict["Three Of A Kind"] = score_of_a_kind #Sets the score as the variable calculated at the start of the method
+                self.lower_total += score_of_a_kind #Adds the score to the total of the lower score section
+                Turn.turn_scored = True #Sets the attribute in the Turn instance that tracks whether the turn has a final score assigned
+                return Turn.turn_scored
 
     def four_of_a_kind(self, dice, Turn):
         score_of_a_kind = sum(dice)
