@@ -328,33 +328,31 @@ def input_score(dice, Game, Turn):
                 input_score_lower_dict["l" + select_score](dice, Turn) #Put "l" at the front as I was getting an error if it was just a number
                 score_done = True
 
+#Function to check if the game is complete based on the scoring sections.
 def check_game_complete(Game):
-    upper_complete = all(Game.UpperScore.score_used.values())
-    lower_complete = all(Game.LowerScore.score_used.values())
+    upper_complete = all(Game.UpperScore.score_used.values()) #Check if the Upper Section is complete by checking if all values are True
+    lower_complete = all(Game.LowerScore.score_used.values()) #Check if the Lower Section is complete by checking if all values are True
+    #If both of the above are True, set the Game as complete
     if upper_complete and lower_complete:
         Game.game_complete = True
         return Game.game_complete
 
-#Game initialise
+#Game loop starts here
 player = input("Please enter your name: ")
-game_play = Game(player)	
-
-score_selected = False
+game_play = Game(player) #Game object is initialised based on the player name input above	
+# score_selected = False #Tracks if a final score has been selected each turn
 while game_play.game_complete == False:
     # while game_play.UpperScore.complete == False and game_play.LowerScore.complete == False:
     turn_start = input("Press Enter to roll the dice")
-    turn_new = Turn()
-    if turn_start:
-        pass
-    #Three rolls
+    turn_new = Turn() #Each turn of the game should be initialised here
+
+    #The dice are rolled up to three times
     dice_rolled = roll_input(turn_new) #The final dice at the end of a turn
-    show_available_scores(game_play) #Show the final dice the remaining scores to choose from
-    while turn_new.turn_scored == False:
-        input_score(dice_rolled, game_play, turn_new)
-        # print(turn_new.turn_scored)
+    show_available_scores(game_play) #Show the final dice and the remaining scores to choose from
+    
     #Score is selected and the scores are shown
-    print(game_play.UpperScore)
-    print(game_play.LowerScore)
+    while turn_new.turn_scored == False: #
+        input_score(dice_rolled, game_play, turn_new)
     game_play.UpperScore.show_scores()
     game_play.LowerScore.show_scores_lower()
     check_game_complete(game_play)
