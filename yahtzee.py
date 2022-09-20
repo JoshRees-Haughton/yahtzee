@@ -81,6 +81,7 @@ class UpperScore:
     #A class for the scoring of the upper section of the game, with a variable for each number and a total
     def __init__(self):
         self.score_dict = {"Ones": 0, "Twos": 0, "Threes": 0, "Fours": 0, "Fives": 0, "Sixes": 0,}
+        self.score_used = {"Ones": False, "Twos": False, "Threes": False, "Fours": False, "Fives": False, "Sixes": False,}
         self.upper_bonus = 0
         self.total = 0
         self.complete = False
@@ -112,6 +113,7 @@ class UpperScore:
     def score_upper(self, dice, num, Turn):
         upper_score_ref = {1: "Ones", 2: "Twos", 3: "Threes", 4: "Fours", 5: "Fives", 6: "Sixes"} #Dictionary to match the score fields with the num from the argument
         upper_score_val = upper_score_ref[num] #Defines a variable that is the value of dictionary with the key of the number selected.
+        self.score_used[upper_score_val] = True
         #If the score is taken, print an error message to the player.		
         if self.score_dict[upper_score_val] != 0:
             print("Number already has score, please select again.")
@@ -139,6 +141,13 @@ class LowerScore:
                            "Large Straight": 0,
                            "Yahtzee": 0,
                            "Chance": 0}
+        self.score_used = {"Three Of A Kind": 0, 
+                           "Four Of A Kind": 0,
+                           "Full House": 0,
+                           "Small Straight": 0,
+                           "Large Straight": 0,
+                           "Yahtzee": 0,
+                           "Chance": 0}                           
         # self.lower_total = sum((self.score_dict).values())
         self.lower_total = 0
         self.complete = False
@@ -169,16 +178,18 @@ class LowerScore:
 
     #Method to score the Three Of A Kind field, taking a set of dice and a Turn instance as arguments
     def three_of_a_kind(self, dice, Turn):
+        self.score_used["Three Of A Kind"] = True
         score_of_a_kind = sum(dice) #Variable that sums the dice values, which will be the final score for the field
         for die in dice:
             #Checks that the number of dice with the same value as the current dice in the loop is equal to 3, and that the field doesn't already have a score assigned
             if dice.count(die) == 3 and self.score_dict["Three Of A Kind"] == 0:
                 self.score_dict["Three Of A Kind"] = score_of_a_kind #Sets the score as the variable calculated at the start of the method
                 self.lower_total += score_of_a_kind #Adds the score to the total of the lower score section
-                Turn.turn_scored = True #Sets the attribute in the Turn instance that tracks whether the turn has a final score assigned
-                return Turn.turn_scored
+            Turn.turn_scored = True #Sets the attribute in the Turn instance that tracks whether the turn has a final score assigned
+            return Turn.turn_scored
 
     def four_of_a_kind(self, dice, Turn):
+        self.score_used["Four Of A Kind"] = True
         score_of_a_kind = sum(dice)
         for die in dice:
             if dice.count(die) == 4 and self.score_dict["Four Of A Kind"] == 0:
@@ -188,6 +199,7 @@ class LowerScore:
         return Turn.turn_scored
         
     def full_house(self, dice, Turn):
+        self.score_used["Full House"] = True
         for die in dice:
             if dice.count(die) == 3:
                 dice_removed = [value for value in dice if value != die]
@@ -199,6 +211,7 @@ class LowerScore:
         return Turn.turn_scored
 
     def sm_straight(self, dice, Turn):
+        self.score_used["Small Straight"] = True
         sm_straight_lists = [[1, 2, 3, 4], [2, 3, 4, 5], [3, 4, 5, 6]]
         for die_list in sm_straight_lists:
             if set(die_list).issubset(set(dice)) and self.score_dict["Small Straight"] == 0:
@@ -208,6 +221,7 @@ class LowerScore:
         return Turn.turn_scored
 
     def lg_straight(self, dice, Turn):
+        self.score_used["Large Straight"] = True
         lg_straight_lists = [[1, 2, 3, 4, 5], [2, 3, 4, 5, 6]]
         for die_list in lg_straight_lists:
             if set(die_list).issubset(set(dice)) and self.score_dict["Large Straight"] == 0:
@@ -217,6 +231,7 @@ class LowerScore:
         return Turn.turn_scored
 
     def yahtzee(self, dice, Turn):
+        self.score_used["Yahtzee"] = True
         if dice.count(dice[0]) == 5:
             if self.score_dict["Yahtzee"] == 0:
                 self.score_dict["Yahtzee"] = 50
@@ -228,6 +243,7 @@ class LowerScore:
         return Turn.turn_scored
 
     def chance(self, dice, Turn):
+        self.score_used["Chance"] = True
         if self.score_dict["Chance"] == 0:
             self.score_dict["Chance"] = sum(dice)
             self.lower_total += sum(dice)
@@ -277,13 +293,13 @@ def show_available_scores(Game):
     print("Upper Scores")
     print("############")
     for upper_key in Game.UpperScore.score_dict:
-        if Game.UpperScore.score_dict[upper_key] == 0:
+        if Game.UpperScore.score_dict[upper_key] == 0 and Game.UpperScore.score_used[upper_key] == False:
             print(score_number_dict[upper_key] + " " + upper_key)
     print("")			
     print("Lower Scores")
     print("############")
     for lower_key in Game.LowerScore.score_dict:
-        if Game.LowerScore.score_dict[lower_key] == 0:
+        if Game.LowerScore.score_dict[lower_key] == 0 and Game.LowerScore.score_used[lower_key] == False:
             print(score_number_dict[lower_key] + " " + lower_key)
     print("")
 
@@ -317,8 +333,8 @@ player = input("Please enter your name: ")
 game_play = Game(player)	
 
 score_selected = False
-# while game_play.game_complete == False:
-while game_play.UpperScore.complete == False and game_play.LowerScore.complete == False:
+while game_play.game_complete == False:
+    # while game_play.UpperScore.complete == False and game_play.LowerScore.complete == False:
     turn_start = input("Press Enter to roll the dice")
     turn_new = Turn()
     if turn_start:
@@ -337,80 +353,3 @@ while game_play.UpperScore.complete == False and game_play.LowerScore.complete =
         #Repeat
 
 #Game end
-
-
-
-#Test class instances
-# test_game_1 = Game("Josh")
-# test_turn_1 = Turn()
-# test_upper_1 = UpperScore()
-# test_lower_1 = LowerScore()
-
-# print(test_upper_1)
-# test_upper_1.show_scores()
-
-
-# # show_available_scores(test_upper_1, test_lower_1)
-# show_available_scores(test_game_1)
-
-
-# dice_rolled = roll_input(test_turn_1)
-# # input_score(dice_rolled, test_upper_1, test_lower_1)
-# input_score(dice_rolled, test_game_1)
-# print(test_game_1.UpperScore)
-# print(test_game_1.LowerScore)
-# # print(test_upper_1)-
-# # print(test_lower_1)
-
-# # show_available_scores(test_upper_1, test_lower_1)
-# show_available_scores(test_game_1)
-
-#Tests
-    #Tests printing out Die class and all its attributes
-    # test_Die = y_test.test_Die(die_1)
-
-    #Tests Die.roll_die(), with the status of a die before and after being printed 
-    # test_roll_die = y_test.test_roll_die(die_1) 
-
-    #Tests the class Turn, printing the attributest and the class itself
-    # test_Turn = y_test.test_Turn(test_turn_1)
-
-    #Tests the roll() method by performing three rolls (all dice, two dice, no dice), and printing the class each time to ensure the attributes update correctly
-    # test_roll = y_test.test_roll(test_turn_1, [die_1, die_2], []) 
-
-    #Tests the class UpperScore and its attributes.
-    #test_UpperScore = y_test.test_UpperScore(test_upper_1) 
-
-    #Tests show_scores function, with the Upper Score being printed before and after the turn.
-    #FORCING A VALUE OF 1, NEED TO EXPAND
-    # print(test_upper_1.score_dict)
-    # dice_after_roll = roll_input(test_turn_1)
-    # test_upper_1.score_upper(dice_after_roll, 1)
-    # print(test_upper_1.score_dict)
-    # test_upper_1.show_scores()
-
-    #Tests the score_upper() method, with the Upper Score dictionary getting printed before and after a roll and a scoring of 1
-    # test_score_upper = y_test.test_score_upper(test_upper_1, test_turn_1, 1)
-
-    # Tests the class LowerScore and its attributes
-    # test_LowerScore = y_test.test_LowerScore(test_lower_1)
-
-    #Tests the two methods three_of_a_kind and four_of_a_kind
-    # dice_rolled = roll_input(test_turn_1)
-    # test_three_of_a_kind = y_test.test_three_of_a_kind(test_lower_1, dice_rolled)
-    # test_four_of_a_kind = y_test.test_four_of_a_kind(test_lower_1, dice_rolled)
-
-    #Tests the full_house() method from the LowerScore section	
-    # dice_rolled = roll_input(test_turn_1)
-    # test_full_house = y_test.test_full_house(test_lower_1, dice_rolled)
-
-    #Tests the sm_straight() method from the LowerScore section	
-    # dice_rolled = roll_input(test_turn_1)
-    # test_sm_straight = y_test.test_sm_straight(test_lower_1, dice_rolled)
-
-    # Tests the sm_straight() method from the LowerScore section	
-    # dice_rolled = roll_input(test_turn_1)
-    # test_lg_straight = y_test.test_lg_straight(test_lower_1, dice_rolled)
-
-    # Tests the method to score Yahtzees in the Lower Section class, including bonus extra Yahtzees
-    # test_yahtzee = y_test.test_yahtzee(test_lower_1, [1, 1, 1, 1, 1], [6, 6, 6, 6, 6])
