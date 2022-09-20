@@ -141,13 +141,13 @@ class LowerScore:
                            "Large Straight": 0,
                            "Yahtzee": 0,
                            "Chance": 0}
-        self.score_used = {"Three Of A Kind": 0, 
-                           "Four Of A Kind": 0,
-                           "Full House": 0,
-                           "Small Straight": 0,
-                           "Large Straight": 0,
-                           "Yahtzee": 0,
-                           "Chance": 0}                           
+        self.score_used = {"Three Of A Kind": False, 
+                           "Four Of A Kind": False,
+                           "Full House": False,
+                           "Small Straight": False,
+                           "Large Straight": False,
+                           "Yahtzee": False,
+                           "Chance": False}                           
         # self.lower_total = sum((self.score_dict).values())
         self.lower_total = 0
         self.complete = False
