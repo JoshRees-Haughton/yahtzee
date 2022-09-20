@@ -328,6 +328,13 @@ def input_score(dice, Game, Turn):
                 input_score_lower_dict["l" + select_score](dice, Turn) #Put "l" at the front as I was getting an error if it was just a number
                 score_done = True
 
+def check_game_complete(Game):
+    upper_complete = all(Game.UpperScore.score_used.values())
+    lower_complete = all(Game.LowerScore.score_used.values())
+    if upper_complete and lower_complete:
+        Game.game_complete = True
+        return Game.game_complete
+
 #Game initialise
 player = input("Please enter your name: ")
 game_play = Game(player)	
@@ -350,6 +357,7 @@ while game_play.game_complete == False:
     print(game_play.LowerScore)
     game_play.UpperScore.show_scores()
     game_play.LowerScore.show_scores_lower()
+    check_game_complete(game_play)
         #Repeat
 
 #Game end
