@@ -119,6 +119,8 @@ class UpperScore:
         print("(5) Fives: {fives}".format(fives = self.score_dict["Fives"]))
         print("(6) Sixes: {sixes}".format(sixes = self.score_dict["Sixes"]))
         print("--------------")
+        if self.total >= 63:
+            print("Bonus: 35")
         print("Total: {total}".format(total = self.total))
         print("")
 
@@ -142,6 +144,8 @@ class UpperScore:
         if num not in dice:
             print("No dice match selection, please select again.")
         if not (0 in self.score_dict.values()):
+            if self.total >= 63:
+                self.total += 35
             self.complete = True
 
 class LowerScore:
