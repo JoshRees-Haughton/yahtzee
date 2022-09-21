@@ -16,6 +16,19 @@ class Game:
 
     def __repr__(self):
         return "This is game number {game_number}, the player is {player} and the current high score is {high_score}, held by {high_score_player}.".format(game_number = self.game_number, player = self.player, high_score = self.high_score, high_score_player = self.high_score_player)
+
+    def final_scores(self):
+        print("Game Over!")
+        print("")
+        print("The final scores are:")
+        print("")
+        self.UpperScore.show_scores()
+        self.LowerScore.show_scores_lower()
+        final_score = self.UpperScore.total + self.LowerScore.lower_total
+        print("")
+        print("##############")
+        print("Overall Total: {final_score}".format(final_score = final_score))
+        print("##############")
             
 class Die:
     #Defines each of the dice as an object, with 6 possible values
@@ -351,11 +364,14 @@ while game_play.game_complete == False:
     show_available_scores(game_play) #Show the final dice and the remaining scores to choose from
     
     #Score is selected and the scores are shown
-    while turn_new.turn_scored == False: #
+    while turn_new.turn_scored == False:
         input_score(dice_rolled, game_play, turn_new)
     game_play.UpperScore.show_scores()
     game_play.LowerScore.show_scores_lower()
     check_game_complete(game_play)
+    # if game_play.game_complete:
+
+game_play.final_scores()
         #Repeat
 
 #Game end
