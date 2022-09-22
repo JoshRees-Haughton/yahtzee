@@ -1,5 +1,4 @@
 import random
-import y_test
 
 #Main 
 class Game:
@@ -16,6 +15,19 @@ class Game:
 
     def __repr__(self):
         return "This is game number {game_number}, the player is {player} and the current high score is {high_score}, held by {high_score_player}.".format(game_number = self.game_number, player = self.player, high_score = self.high_score, high_score_player = self.high_score_player)
+
+    def final_scores(self):
+        print("Game Over!")
+        print("")
+        print("The final scores are:")
+        print("")
+        self.UpperScore.show_scores()
+        self.LowerScore.show_scores_lower()
+        final_score = self.UpperScore.total + self.LowerScore.lower_total
+        print("")
+        print("##############")
+        print("Overall Total: {final_score}".format(final_score = final_score))
+        print("##############")
             
 class Die:
     #Defines each of the dice as an object, with 6 possible values
@@ -82,7 +94,7 @@ class UpperScore:
     def __init__(self):
         self.score_dict = {"Ones": 0, "Twos": 0, "Threes": 0, "Fours": 0, "Fives": 0, "Sixes": 0,}
         self.score_used = {"Ones": False, "Twos": False, "Threes": False, "Fours": False, "Fives": False, "Sixes": False,}
-        self.upper_bonus = 0
+        self.upper_bonus = False #Tracks if the Upper bonus has been scored
         self.total = 0
         self.complete = False
 
@@ -131,9 +143,15 @@ class UpperScore:
         if num not in dice:
             print("No dice match selection, please select again.")
         if not (0 in self.score_dict.values()):
-            if self.total >= 63:
-                self.total += 35
             self.complete = True
+
+    #Method to apply the bonus score for the Upper section
+    def upper_bonus_check(self):
+        #Makes sure that the score hasn't been applied before, and that the lower score threshold has been met
+        if self.upper_bonus == False and self.total >= 63: 
+            self.total += 35
+            self.upper_bonus = True #Flags the bonus as being applied, so the score does not get repeat
+
 
 class LowerScore:
 
@@ -332,28 +350,38 @@ def input_score(dice, Game, Turn):
                 input_score_lower_dict["l" + select_score](dice, Turn) #Put "l" at the front as I was getting an error if it was just a number
                 score_done = True
 
-#Game initialise
-player = input("Please enter your name: ")
-game_play = Game(player)	
+#Function to check if the game is complete based on the scoring sections.
+def check_game_complete(Game):
+    upper_complete = all(Game.UpperScore.score_used.values()) #Check if the Upper Section is complete by checking if all values are True
+    lower_complete = all(Game.LowerScore.score_used.values()) #Check if the Lower Section is complete by checking if all values are True
+    #If both of the above are True, set the Game as complete
+    if upper_complete and lower_complete:
+        Game.game_complete = True
+        return Game.game_complete
 
-score_selected = False
+#Game loop starts here
+player = input("Please enter your name: ")
+game_play = Game(player) #Game object is initialised based on the player name input above	
+# score_selected = False #Tracks if a final score has been selected each turn
 while game_play.game_complete == False:
     # while game_play.UpperScore.complete == False and game_play.LowerScore.complete == False:
     turn_start = input("Press Enter to roll the dice")
-    turn_new = Turn()
-    if turn_start:
-        pass
-    #Three rolls
+    turn_new = Turn() #Each turn of the game should be initialised here
+
+    #The dice are rolled up to three times
     dice_rolled = roll_input(turn_new) #The final dice at the end of a turn
-    show_available_scores(game_play) #Show the final dice the remaining scores to choose from
+    show_available_scores(game_play) #Show the final dice and the remaining scores to choose from
+    
+    #Score is selected and the scores are shown
     while turn_new.turn_scored == False:
         input_score(dice_rolled, game_play, turn_new)
-        # print(turn_new.turn_scored)
-    #Score is selected and the scores are shown
-    print(game_play.UpperScore)
-    print(game_play.LowerScore)
+    game_play.UpperScore.upper_bonus_check()
     game_play.UpperScore.show_scores()
     game_play.LowerScore.show_scores_lower()
+    check_game_complete(game_play)
+    # if game_play.game_complete:
+
+game_play.final_scores()
         #Repeat
 
 #Game end
