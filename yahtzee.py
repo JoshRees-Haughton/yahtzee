@@ -375,10 +375,7 @@ while game_play.game_complete == False:
     #Score is selected and the scores are shown
     while turn_new.turn_scored == False:
         input_score(dice_rolled, game_play, turn_new)
-<<<<<<< HEAD
-=======
     game_play.UpperScore.upper_bonus_check()
->>>>>>> 2-upper-section-bonus-score-logic
     game_play.UpperScore.show_scores()
     game_play.LowerScore.show_scores_lower()
     check_game_complete(game_play)
