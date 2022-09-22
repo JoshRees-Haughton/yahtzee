@@ -1,5 +1,4 @@
 import random
-import y_test
 
 #Main 
 class Game:
@@ -95,7 +94,7 @@ class UpperScore:
     def __init__(self):
         self.score_dict = {"Ones": 0, "Twos": 0, "Threes": 0, "Fours": 0, "Fives": 0, "Sixes": 0,}
         self.score_used = {"Ones": False, "Twos": False, "Threes": False, "Fours": False, "Fives": False, "Sixes": False,}
-        self.upper_bonus = 0
+        self.upper_bonus = False #Tracks if the Upper bonus has been scored
         self.total = 0
         self.complete = False
 
@@ -144,9 +143,15 @@ class UpperScore:
         if num not in dice:
             print("No dice match selection, please select again.")
         if not (0 in self.score_dict.values()):
-            if self.total >= 63:
-                self.total += 35
             self.complete = True
+
+    #Method to apply the bonus score for the Upper section
+    def upper_bonus_check(self):
+        #Makes sure that the score hasn't been applied before, and that the lower score threshold has been met
+        if self.upper_bonus == False and self.total >= 63: 
+            self.total += 35
+            self.upper_bonus = True #Flags the bonus as being applied, so the score does not get repeat
+
 
 class LowerScore:
 
@@ -370,6 +375,10 @@ while game_play.game_complete == False:
     #Score is selected and the scores are shown
     while turn_new.turn_scored == False:
         input_score(dice_rolled, game_play, turn_new)
+<<<<<<< HEAD
+=======
+    game_play.UpperScore.upper_bonus_check()
+>>>>>>> 2-upper-section-bonus-score-logic
     game_play.UpperScore.show_scores()
     game_play.LowerScore.show_scores_lower()
     check_game_complete(game_play)
