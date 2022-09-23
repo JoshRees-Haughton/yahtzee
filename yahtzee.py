@@ -370,7 +370,7 @@ game_play = Game(player) #Game object is initialised based on the player name in
 
 #Welcomes the player based on the name entered
 print("")
-print("Welcome to Yahtzee, {player}".format(player = game_play.player))
+print("Welcome to Yahtzee, {player}!".format(player = game_play.player))
 print("")
 
 #Main while loop for the game, with each loop being a turn
