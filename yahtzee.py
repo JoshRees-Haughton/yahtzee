@@ -72,7 +72,10 @@ class Turn:
 
     def __repr__(self):
         #NEED TO MAKE THIS DYNAMIC BASED ON NUMBER OF ROLLS LEFT
-        return "This turn has {counter} rolls left, and the current dice are {dice}".format(counter = self.counter, dice = self.dice_saved)		
+        dice_saved_print = ""
+        for die in self.dice_saved:
+            dice_saved_print += str([die]) + " "
+        return "Roll {counter}: {dice}".format(counter = 3 - self.counter, dice = dice_saved_print)		
 
     def roll(self, dice = game_dice):
         #The method to simulate each roll of the dice, taking which of the five dice to roll in a list as an argument. If left empty, all five dice will be rolled.
@@ -292,6 +295,7 @@ def roll_input(turn):
             print("You roll all the dice")
             first_roll = turn.roll() #Variable defined as the result of the roll method from the Turn object 
         if turn.counter == 2:
+            print("")
             print(turn)
         #Prompt to the player to choose the dice to reroll, setting as a variable turn_two_input. Then abother variable set as the result
         #of turn_two_input as the argument of the function to convert integers to dice objects
@@ -299,6 +303,7 @@ def roll_input(turn):
         second_roll_input = dice_from_id(turn_two_input)
         #Roll the dice chosen using second_turn_input and print the turn object showing the results
         turn.roll(second_roll_input)
+        print("")
         print(turn)
         #Prompt to the player to choose any dice to roll again, for the last roll.
         turn_three_input = input("Please enter the dice to roll again (i.e. 145): ")
@@ -361,11 +366,17 @@ def check_game_complete(Game):
 
 #Game loop starts here
 player = input("Please enter your name: ")
-game_play = Game(player) #Game object is initialised based on the player name input above	
-# score_selected = False #Tracks if a final score has been selected each turn
+game_play = Game(player) #Game object is initialised based on the player name input above
+
+#Welcomes the player based on the name entered
+print("")
+print("Welcome to Yahtzee, {player}".format(player = game_play.player))
+print("")
+
+#Main while loop for the game, with each loop being a turn
 while game_play.game_complete == False:
-    # while game_play.UpperScore.complete == False and game_play.LowerScore.complete == False:
-    turn_start = input("Press Enter to roll the dice")
+    turn_start = input("Press Enter to roll the dice...")
+    print("")
     turn_new = Turn() #Each turn of the game should be initialised here
 
     #The dice are rolled up to three times
