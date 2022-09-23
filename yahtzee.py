@@ -73,9 +73,14 @@ class Turn:
     def __repr__(self):
         #NEED TO MAKE THIS DYNAMIC BASED ON NUMBER OF ROLLS LEFT
         dice_saved_print = ""
-        for die in self.dice_saved:
-            dice_saved_print += str([die]) + " "
-        return "Roll {counter}: {dice}".format(counter = 3 - self.counter, dice = dice_saved_print)		
+        if self.counter > 0:
+            for die in self.dice_saved:
+                dice_saved_print += str([die]) + " "
+            return "Roll {counter}: {dice}".format(counter = 3 - self.counter, dice = dice_saved_print)
+        else:
+            for die in self.dice_saved:
+                dice_saved_print += str([die]) + " "
+            return "Roll {counter} (final dice): {dice}".format(counter = 3 - self.counter, dice = dice_saved_print)	
 
     def roll(self, dice = game_dice):
         #The method to simulate each roll of the dice, taking which of the five dice to roll in a list as an argument. If left empty, all five dice will be rolled.
@@ -310,7 +315,10 @@ def roll_input(turn):
         third_roll_input = dice_from_id(turn_three_input)
         turn.roll(third_roll_input)
         #Shows the player the final dice, using the dice_saved attribute from the turn instance, and returns the dice_saved list
-        print("Your final dice are: " + str(turn.dice_saved))
+        # print("Your final dice are TEST: " + str(turn.dice_saved))
+        print("")
+        print(turn)
+        print("")
         return turn.dice_saved
 
 
