@@ -323,7 +323,7 @@ def roll_input(turn):
 
 
 def show_available_scores(Game):
-    score_number_dict = {"Ones": "(1)", "Twos": "(2)", "Threes": "(3)", "Fours": "(4 )", "Fives": "(5)", "Sixes": "(6)", 
+    score_number_dict = {"Ones": "(1)", "Twos": "(2)", "Threes": "(3)", "Fours": "(4)", "Fives": "(5)", "Sixes": "(6)", 
                          "Three Of A Kind": "(7)", "Four Of A Kind": "(8)", "Full House": "(9)", "Small Straight": "(10)", "Large Straight": "(11)", "Yahtzee": "(12)", "Chance": "(13)"} 
     print("Upper Scores")
     print("############")
