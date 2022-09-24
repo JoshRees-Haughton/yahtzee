@@ -126,7 +126,7 @@ class UpperScore:
         print("(5) Fives: {fives}".format(fives = self.score_dict["Fives"]))
         print("(6) Sixes: {sixes}".format(sixes = self.score_dict["Sixes"]))
         print("--------------")
-        if self.total >= 63:
+        if self.total >= 63:            
             print("Bonus: 35")
         print("Total: {total}".format(total = self.total))
         print("")
@@ -147,6 +147,9 @@ class UpperScore:
                     self.score_dict[upper_score_val] += value #Add each to the score (as the score is just a multiple of the value)
                     self.total += value #Add to the total for the section
             Turn.turn_scored = True
+            print("")
+            print("You selected {field} and scored {score}!".format(field = upper_score_val, score = self.score_dict[upper_score_val]))
+            print("")
             return Turn.turn_scored
         if num not in dice:
             print("No dice match selection, please select again.")
