@@ -297,17 +297,20 @@ class LowerScore:
     def lg_straight(self, dice, Turn):
         self.score_used["Large Straight"] = True             
         lg_straight_lists = [[1, 2, 3, 4, 5], [2, 3, 4, 5, 6]]
+        score_not_zero = False #Variable to track whether the score was zero or not
         for die_list in lg_straight_lists:
             if set(die_list).issubset(set(dice)) and self.score_dict["Large Straight"] == 0:
                 self.score_dict["Large Straight"] = 40
                 self.lower_total += 40
-                print("")
-                print("You selected Large Straight and scored {score}!".format(score = 40))
-                print("")
-            else:
-                print("")
-                print("You selected Large Straight and scored 0!")
-                print("")                               
+                score_not_zero = True #Flags the score as being non-zero  
+        if score_not_zero == True:
+            print("")
+            print("You selected Large Straight and scored {score}!".format(score = 40))
+            print("")
+        else:
+            print("")
+            print("You selected Large Straight and scored 0!")
+            print("")                                  
         Turn.turn_scored = True
         return Turn.turn_scored
 
