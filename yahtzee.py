@@ -26,7 +26,7 @@ class Game:
         final_score = self.UpperScore.total + self.LowerScore.lower_total
         print("")
         print("##############")
-        print("Overall Total: {final_score}".format(final_score = final_score))
+        print("Grand Total: {final_score}".format(final_score = final_score))
         print("##############")
             
 class Die:
@@ -357,14 +357,13 @@ def input_score(dice, Game, Turn):
                               "l13": Game.LowerScore.chance}
     while score_done == False:
         select_score = input("Please input the number shown in brackets for the field you want to enter a score for: ") #Takes the players input and uses as the argument if scoring the Upper section
-        if select_score in score_list:
-            if select_score in score_upper_list:
-                Game.UpperScore.score_upper(dice, int(select_score), Turn)
-                score_done = True
-            #Takes the players input, concatinated with "l" at the front, and uses the dictionary to match with the correct Lower section method if scoring the Lower section
-            if select_score in score_lower_list:
-                input_score_lower_dict["l" + select_score](dice, Turn) #Put "l" at the front as I was getting an error if it was just a number
-                score_done = True
+        if select_score in score_upper_list:
+            Game.UpperScore.score_upper(dice, int(select_score), Turn)
+            score_done = True
+        #Takes the players input, concatinated with "l" at the front, and uses the dictionary to match with the correct Lower section method if scoring the Lower section
+        if select_score in score_lower_list:
+            input_score_lower_dict["l" + select_score](dice, Turn) #Put "l" at the front as I was getting an error if it was just a number
+            score_done = True
 
 #Function to check if the game is complete based on the scoring sections.
 def check_game_complete(Game):
