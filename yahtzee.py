@@ -240,7 +240,7 @@ class LowerScore:
             if dice.count(die) == 4 and self.score_dict["Four Of A Kind"] == 0:
                 self.score_dict["Four Of A Kind"] = score_of_a_kind	
                 self.lower_total += score_of_a_kind
-                score_not_zero = True #Variable to track whether the score was zero or not
+                score_not_zero = True #Flags the score as being non-zero  
         if score_not_zero == True:
             print("")
             print("You selected Four Of A Kind and scored {score}!".format(score = score_of_a_kind))
@@ -254,6 +254,7 @@ class LowerScore:
         
     def full_house(self, dice, Turn):
         self.score_used["Full House"] = True
+        score_not_zero = False #Variable to track whether the score was zero or not
         for die in dice:
             if dice.count(die) == 3:
                 dice_removed = [value for value in dice if value != die]
@@ -261,13 +262,15 @@ class LowerScore:
                     if dice_removed.count(die_new) == 2 and self.score_dict["Full House"] == 0:
                         self.score_dict["Full House"] = 25
                         self.lower_total += 25
-                        print("")
-                        print("You selected Full House and scored {score}!".format(score = 25))
-                        print("")
-            else:            
-                print("")
-                print("You selected Full House and scored 0!")
-                print("")                        
+                        score_not_zero = True #Flags the score as being non-zero  
+        if score_not_zero == True:
+            print("")
+            print("You selected Full Houseand scored {score}!".format(score = 25))
+            print("")
+        else:
+            print("")
+            print("You selected Full Houseand scored 0!")
+            print("")                               
         Turn.turn_scored = True
         return Turn.turn_scored
 
