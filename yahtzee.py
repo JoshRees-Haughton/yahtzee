@@ -213,21 +213,42 @@ class LowerScore:
     def three_of_a_kind(self, dice, Turn):
         self.score_used["Three Of A Kind"] = True
         score_of_a_kind = sum(dice) #Variable that sums the dice values, which will be the final score for the field
+        score_not_zero = False #Variable to track whether the score was zero or not
         for die in dice:
             #Checks that the number of dice with the same value as the current dice in the loop is equal to 3, and that the field doesn't already have a score assigned
             if dice.count(die) == 3 and self.score_dict["Three Of A Kind"] == 0:
                 self.score_dict["Three Of A Kind"] = score_of_a_kind #Sets the score as the variable calculated at the start of the method
                 self.lower_total += score_of_a_kind #Adds the score to the total of the lower score section
+                score_not_zero = True #Flags the score as being non-zero  
             Turn.turn_scored = True #Sets the attribute in the Turn instance that tracks whether the turn has a final score assigned
-            return Turn.turn_scored
+        #if else statement to print the score based on the score_not_zero variable    
+        if score_not_zero == True:
+            print("")
+            print("You selected Three Of A Kind and scored {score}!".format(score = score_of_a_kind))
+            print("")
+        else:
+            print("")
+            print("You selected Three Of A Kind and scored 0!")
+            print("")                   
+        return Turn.turn_scored
 
     def four_of_a_kind(self, dice, Turn):
         self.score_used["Four Of A Kind"] = True
         score_of_a_kind = sum(dice)
+        score_not_zero = False #Variable to track whether the score was zero or not
         for die in dice:
             if dice.count(die) == 4 and self.score_dict["Four Of A Kind"] == 0:
                 self.score_dict["Four Of A Kind"] = score_of_a_kind	
                 self.lower_total += score_of_a_kind
+                score_not_zero = True #Variable to track whether the score was zero or not
+        if score_not_zero == True:
+            print("")
+            print("You selected Four Of A Kind and scored {score}!".format(score = score_of_a_kind))
+            print("")
+        else:
+            print("")
+            print("You selected Four Of A Kind and scored 0!")
+            print("")                     
         Turn.turn_scored = True
         return Turn.turn_scored
         
@@ -240,6 +261,13 @@ class LowerScore:
                     if dice_removed.count(die_new) == 2 and self.score_dict["Full House"] == 0:
                         self.score_dict["Full House"] = 25
                         self.lower_total += 25
+                        print("")
+                        print("You selected Full House and scored {score}!".format(score = 25))
+                        print("")
+            else:            
+                print("")
+                print("You selected Full House and scored 0!")
+                print("")                        
         Turn.turn_scored = True
         return Turn.turn_scored
 
@@ -250,16 +278,31 @@ class LowerScore:
             if set(die_list).issubset(set(dice)) and self.score_dict["Small Straight"] == 0:
                 self.score_dict["Small Straight"] = 30
                 self.lower_total += 30
+                print("")
+                print("You selected Small Straight and scored {score}!".format(score = 30))
+                print("")
+            else:
+                print("")
+                print("You selected Small Straight and scored 0!")
+                print("")
+
         Turn.turn_scored = True
         return Turn.turn_scored
 
     def lg_straight(self, dice, Turn):
-        self.score_used["Large Straight"] = True
+        self.score_used["Large Straight"] = True             
         lg_straight_lists = [[1, 2, 3, 4, 5], [2, 3, 4, 5, 6]]
         for die_list in lg_straight_lists:
             if set(die_list).issubset(set(dice)) and self.score_dict["Large Straight"] == 0:
                 self.score_dict["Large Straight"] = 40
                 self.lower_total += 40
+                print("")
+                print("You selected Large Straight and scored {score}!".format(score = 40))
+                print("")
+            else:
+                print("")
+                print("You selected Large Straight and scored 0!")
+                print("")                               
         Turn.turn_scored = True
         return Turn.turn_scored
 
@@ -269,14 +312,27 @@ class LowerScore:
             if self.score_dict["Yahtzee"] == 0:
                 self.score_dict["Yahtzee"] = 50
                 self.lower_total += 50
+                print("")
+                print("You selected Yahtzee and scored {score}!".format(score = 50))
+                print("")        
             else:
                 self.score_dict["Yahtzee"] += 100
                 self.lower_total += 100
+                print("")
+                print("You selected Yahtzee and scored {score}!".format(score = 100))
+                print("")      
+        else:
+            print("")
+            print("You selected Yahtzee and scored 0!")
+            print("")                           
         Turn.turn_scored = True
         return Turn.turn_scored
 
     def chance(self, dice, Turn):
         self.score_used["Chance"] = True
+        print("")
+        print("You selected Chance and scored {score}!".format(score = sum(dice)))
+        print("")   
         if self.score_dict["Chance"] == 0:
             self.score_dict["Chance"] = sum(dice)
             self.lower_total += sum(dice)
