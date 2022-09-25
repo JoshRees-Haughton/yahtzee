@@ -265,11 +265,11 @@ class LowerScore:
                         score_not_zero = True #Flags the score as being non-zero  
         if score_not_zero == True:
             print("")
-            print("You selected Full Houseand scored {score}!".format(score = 25))
+            print("You selected Full House and scored {score}!".format(score = 25))
             print("")
         else:
             print("")
-            print("You selected Full Houseand scored 0!")
+            print("You selected Full House and scored 0!")
             print("")                               
         Turn.turn_scored = True
         return Turn.turn_scored
@@ -277,18 +277,20 @@ class LowerScore:
     def sm_straight(self, dice, Turn):
         self.score_used["Small Straight"] = True
         sm_straight_lists = [[1, 2, 3, 4], [2, 3, 4, 5], [3, 4, 5, 6]]
+        score_not_zero = False #Variable to track whether the score was zero or not
         for die_list in sm_straight_lists:
             if set(die_list).issubset(set(dice)) and self.score_dict["Small Straight"] == 0:
                 self.score_dict["Small Straight"] = 30
                 self.lower_total += 30
-                print("")
-                print("You selected Small Straight and scored {score}!".format(score = 30))
-                print("")
-            else:
-                print("")
-                print("You selected Small Straight and scored 0!")
-                print("")
-
+                score_not_zero = True #Flags the score as being non-zero  
+        if score_not_zero == True:
+            print("")
+            print("You selected Small Straight and scored {score}!".format(score = 30))
+            print("")
+        else:
+            print("")
+            print("You selected Small Straight and scored 0!")
+            print("")             
         Turn.turn_scored = True
         return Turn.turn_scored
 
