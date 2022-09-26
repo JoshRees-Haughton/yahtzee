@@ -20,7 +20,6 @@ class Game:
         print("Game Over!")
         print("")
         print("The final scores are:")
-        print("")
         self.UpperScore.show_scores()
         self.LowerScore.show_scores_lower()
         final_score = self.UpperScore.total + self.LowerScore.lower_total
@@ -117,7 +116,7 @@ class UpperScore:
         #Prints the current scores for the player. Get scores from score_dict
 
         print("")
-        print("Upper Scores")
+        print("Upper Section")
         print("############")
         print("(1) Ones: {ones}".format(ones = self.score_dict["Ones"]))
         print("(2) Twos: {twos}".format(twos = self.score_dict["Twos"]))
@@ -195,7 +194,7 @@ class LowerScore:
         #Prints the current scores for the player. Get scores from score_dict
 
 
-        print("Lower Scores")
+        print("Lower Section")
         print("############")
         print("(7) Three Of A Kind: {three_o_k}".format(three_o_k = self.score_dict["Three Of A Kind"]))
         print("(8) Four Of A Kind: {four_o_k}".format(four_o_k = self.score_dict["Four Of A Kind"]))
@@ -371,14 +370,14 @@ def roll_input(turn):
             print(turn)
         #Prompt to the player to choose the dice to reroll, setting as a variable turn_two_input. Then abother variable set as the result
         #of turn_two_input as the argument of the function to convert integers to dice objects
-        turn_two_input = input("Please enter the dice to roll again (i.e. 145): ")
+        turn_two_input = input("Please enter the dice to roll again:")
         second_roll_input = dice_from_id(turn_two_input)
         #Roll the dice chosen using second_turn_input and print the turn object showing the results
         turn.roll(second_roll_input)
         print("")
         print(turn)
         #Prompt to the player to choose any dice to roll again, for the last roll.
-        turn_three_input = input("Please enter the dice to roll again (i.e. 145): ")
+        turn_three_input = input("Please enter the dice to roll again:")
         third_roll_input = dice_from_id(turn_three_input)
         turn.roll(third_roll_input)
         #Shows the player the final dice, using the dice_saved attribute from the turn instance, and returns the dice_saved list
@@ -391,14 +390,16 @@ def roll_input(turn):
 
 def show_available_scores(Game):
     score_number_dict = {"Ones": "(1)", "Twos": "(2)", "Threes": "(3)", "Fours": "(4)", "Fives": "(5)", "Sixes": "(6)", 
-                         "Three Of A Kind": "(7)", "Four Of A Kind": "(8)", "Full House": "(9)", "Small Straight": "(10)", "Large Straight": "(11)", "Yahtzee": "(12)", "Chance": "(13)"} 
-    print("Upper Scores")
+                         "Three Of A Kind": "(7)", "Four Of A Kind": "(8)", "Full House": "(9)", "Small Straight": "(10)", "Large Straight": "(11)", "Yahtzee": "(12)", "Chance": "(13)"}
+    print("The remaining available score are:")
+    print("")	
+    print("Upper Section")
     print("############")
     for upper_key in Game.UpperScore.score_dict:
         if Game.UpperScore.score_dict[upper_key] == 0 and Game.UpperScore.score_used[upper_key] == False:
             print(score_number_dict[upper_key] + " " + upper_key)
     print("")			
-    print("Lower Scores")
+    print("Lower Section")
     print("############")
     for lower_key in Game.LowerScore.score_dict:
         if Game.LowerScore.score_dict[lower_key] == 0 and Game.LowerScore.score_used[lower_key] == False:
@@ -438,35 +439,41 @@ def check_game_complete(Game):
         Game.game_complete = True
         return Game.game_complete
 
-#Game loop starts here
+#Player input and game stats here
 player = input("Please enter your name: ")
 game_play = Game(player) #Game object is initialised based on the player name input above
+turn_counter = 0 #Used to change some user text based on the turn number
 
 #Welcomes the player based on the name entered
 print("")
 print("Welcome to Yahtzee, {player}!".format(player = game_play.player))
 print("")
 
-#Main while loop for the game, with each loop being a turn
+#Main while loop that runs until every field has been scored, with each loop being a turn
 while game_play.game_complete == False:
-    turn_start = input("Press Enter to roll the dice...")
+    if turn_counter == 0:
+        input("Press Enter to roll the dice...")
     print("")
     turn_new = Turn() #Each turn of the game should be initialised here
 
     #The dice are rolled up to three times
     dice_rolled = roll_input(turn_new) #The final dice at the end of a turn
     show_available_scores(game_play) #Show the final dice and the remaining scores to choose from
-    
+
     #Score is selected and the scores are shown
     while turn_new.turn_scored == False:
         input_score(dice_rolled, game_play, turn_new)
     game_play.UpperScore.upper_bonus_check()
-    game_play.UpperScore.show_scores()
-    game_play.LowerScore.show_scores_lower()
+    turn_counter += 1
+    if turn_counter != 13: 
+        show_scores_input = input("Press 's' to see the current scores before rolling the dice, or Enter to skip the scores and roll the dice: ")
+    if show_scores_input == "s":
+        print("")
+        print("Current scores:")
+        game_play.UpperScore.show_scores()
+        game_play.LowerScore.show_scores_lower()
     check_game_complete(game_play)
-    # if game_play.game_complete:
 
 game_play.final_scores()
-        #Repeat
 
 #Game end
