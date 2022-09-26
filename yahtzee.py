@@ -2,57 +2,63 @@ import random
 
 #Main 
 class Game:
-    game_number = 0
-    high_score = 0
-    high_score_player = ""
+    # Will contain highscore data in the future: 
+    # game_number = 0
+    # high_score = 0
+    # high_score_player = ""
 
     def __init__(self, player):
         self.player = player
+        #When initialised, class objects for the Upper and Lower score sections are created for that game instance
         self.UpperScore = UpperScore()
         self.LowerScore = LowerScore()
         self.game_score = 0
         self.game_complete = False
 
-    def __repr__(self):
-        return "This is game number {game_number}, the player is {player} and the current high score is {high_score}, held by {high_score_player}.".format(game_number = self.game_number, player = self.player, high_score = self.high_score, high_score_player = self.high_score_player)
+    #Will be  used to print the highscore data in the future
+    # def __repr__(self):
+    #     return "This is game number {game_number}, the player is {player} and the current high score is {high_score}, held by {high_score_player}.".format(game_number = self.game_number, player = self.player, high_score = self.high_score, high_score_player = self.high_score_player)
 
+    #Used to calculate and print the final score to the player at the end of the game
     def final_scores(self):
         print("Game Over!")
         print("")
         print("The final scores are:")
+        #The actual scores get printed here:
         self.UpperScore.show_scores()
         self.LowerScore.show_scores_lower()
         final_score = self.UpperScore.total + self.LowerScore.lower_total
+        self.game_score += final_score #Adding this to the class attribute self.game_score so that if can be used for calculating highscores in the future
         print("")
         print("##############")
         print("Grand Total: {final_score}".format(final_score = final_score))
         print("##############")
             
 class Die:
-    #Defines each of the dice as an object, with 6 possible values
+    #Values are static for all instances of the class
     values = [1, 2, 3, 4, 5, 6]
 
+    #A die is initialised with an id, and has attributes to track the value and if it has been rolled in any given turn
     def __init__(self, dice_id):
-        #A die is initialized and given an ids
         self.value = 0
         self.rolled = False
         self.dice_id = dice_id
 
+    #Prints the ID of a die, the current value and if it has been rolled
     def __repr__(self):
-        #Prints the ID of a die, the current value and if it has been rolled
         if self.rolled == False:
             return "This die has an ID of {dice_id}, currently has the value {value} and has not been rolled.".format(dice_id = self.dice_id, value = self.value)
         else:
             return "This die has an ID of {dice_id}, currently has the value {value} and has been rolled.".format(dice_id = self.dice_id, value = self.value)
 
+    #This method sets the value of a die to a random value (using the random module), and sets the status of the die to indicate it has been rolled.
     def roll_die(self):
-        #This method sets the value of a die to a random value, and sets the status of the die to indicate it has been rolled
         self.value = random.choice(self.values)
         self.rolled = True
         return self.value
 
 
-#Create the five dice that will be used to play the game
+#Creates the five dice that will be used to play the game
 die_1 = Die(1)
 die_2 = Die(2)
 die_3 = Die(3)
@@ -60,61 +66,62 @@ die_4 = Die(4)
 die_5 = Die(5)
 game_dice = [die_1, die_2, die_3, die_4, die_5]
 
-
+#A class for each turn of the game, consisting of up to three rolls of the dice
 class Turn:
-    #A class for each turn of the game, consisting of up to three rolls of the dice
+    #Sets a counter to track how many rolls are left in the turn, and which dice have been saved for scoring
     def __init__(self):
-        #Sets a counter to track how many rolls are left in the turn, and which dice have been saved for scoring
-        self.counter = 3
+        self.counter = 3 #This ensures that each turn only lasts three turns
         self.dice_saved = []
         self.turn_scored = False
 
+    #Prints the status of each roll of a turn dynamnically, including the set of dice rolled
     def __repr__(self):
-        #NEED TO MAKE THIS DYNAMIC BASED ON NUMBER OF ROLLS LEFT
-        dice_saved_print = ""
-        if self.counter > 0:
+        dice_saved_print = "" #Used to store the dice for each roll
+        if self.counter > 0: #Turns one and two will have different dialog to turn three, and we use counter tag defined in the class
+            #Goes through each die saved after a roll, and adds the value converted to a string to dice_saved_print 
             for die in self.dice_saved:
-                dice_saved_print += str([die]) + " "
+                dice_saved_print += str([die]) + " " #Ensures there's a bracket around and a space between the values for readability
             return "Roll {counter}: {dice}".format(counter = 3 - self.counter, dice = dice_saved_print)
+        #For roll three of a turn, the dialog is slightly different to convey that this is the final roll    
         else:
             for die in self.dice_saved:
                 dice_saved_print += str([die]) + " "
             return "Roll {counter} (final dice): {dice}".format(counter = 3 - self.counter, dice = dice_saved_print)	
 
+    #The method to simulate each roll of the dice, taking which of the five dice to roll in a list as an argument. If left empty, all five dice will be rolled.
     def roll(self, dice = game_dice):
-        #The method to simulate each roll of the dice, taking which of the five dice to roll in a list as an argument. If left empty, all five dice will be rolled.
-        while self.counter > 0:
-            if self.dice_saved == []:
+        while self.counter > 0: #Ensure that the loop runs three times as per the game rules
+            if self.dice_saved == []: #For the first roll, the saved dice will be empty
+                #Just append the value from the rolled dice to the dice saved list
                 for die in game_dice:
                     self.dice_saved.append(die.roll_die())
-                self.counter -= 1
+                self.counter -= 1 #The roll ends here, and the counter is updated
                 return self.dice_saved
+            #For turn two and three, the dice_saved list will not be empty, so for each of the dice ids we update the dice_saved list with the value of the dice roll     
             else:
                 for die in dice:
-                    self.dice_saved[die.dice_id - 1] = die.roll_die()
+                    self.dice_saved[die.dice_id - 1] = die.roll_die() #Use the dice ids with the index of dice_saved to update
                 self.counter -= 1
             return self.dice_saved
 
-
+#A class for the scoring of the upper section of the game, with an attribute for each number and a total
 class UpperScore:
-    #A class for the scoring of the upper section of the game, with a variable for each number and a total
     def __init__(self):
-        self.score_dict = {"Ones": 0, "Twos": 0, "Threes": 0, "Fours": 0, "Fives": 0, "Sixes": 0,}
-        self.score_used = {"Ones": False, "Twos": False, "Threes": False, "Fours": False, "Fives": False, "Sixes": False,}
+        self.score_dict = {"Ones": 0, "Twos": 0, "Threes": 0, "Fours": 0, "Fives": 0, "Sixes": 0} #Dictionary to save the score for each field, with each set to zero when initialised
+        #Tracks whether each fields has a score assigned. This is necessary as it is possible to score zero for a field:
+        self.score_used = {"Ones": False, "Twos": False, "Threes": False, "Fours": False, "Fives": False, "Sixes": False}
         self.upper_bonus = False #Tracks if the Upper bonus has been scored
-        self.total = 0
-        self.complete = False
+        self.total = 0 #Used to track the total for the Upper Section
+        self.complete = False #Used to track whether the section is complete
 
 
-    #SHOULD FORMAT THIS MORE FOR PLAYER
-    def __repr__(self):
-        return "The current scores for the Upper Section are {score_dict}".format(score_dict = self.score_dict)
+    #Prints the status of the Upper section. Currently not used, but could be implemented in the future to give the player more options, or might replace show_scores:
+    # def __repr__(self):
+    #     return "The current scores for the Upper Section are {score_dict}".format(score_dict = self.score_dict)
 
 
-    #NEED TO FORMAT MORE, ADD BONUS
+    #Prints the current scores for the player. Takes the scores from score_dict:
     def show_scores(self):
-        #Prints the current scores for the player. Get scores from score_dict
-
         print("")
         print("Upper Section")
         print("############")
@@ -126,6 +133,7 @@ class UpperScore:
         print("(6) Sixes: {sixes}".format(sixes = self.score_dict["Sixes"]))
         print("--------------")
         print("Total Score: {total}".format(total = self.total))
+        #Logic for the bonus score, with the totals being printed based on if the condition is met each turn
         if self.total >= 63:
             print("Bonus: 35")
             print("Total: {total}".format(total = self.total + 35))
@@ -135,7 +143,7 @@ class UpperScore:
         print("--------------")
         print("")
 
-    #Method that takes a list of dice, and the number from the Upper Section to score against.
+    #Method that takes a list of dice, and the number from the Upper Section to score against as an argument. Num will be input by the player.
     def score_upper(self, dice, num, Turn):
         upper_score_ref = {1: "Ones", 2: "Twos", 3: "Threes", 4: "Fours", 5: "Fives", 6: "Sixes"} #Dictionary to match the score fields with the num from the argument
         upper_score_val = upper_score_ref[num] #Defines a variable that is the value of dictionary with the key of the number selected.
@@ -152,24 +160,27 @@ class UpperScore:
                     self.total += value #Add to the total for the section
             Turn.turn_scored = True
             print("")
-            print("You selected {field} and scored {score}!".format(field = upper_score_val, score = self.score_dict[upper_score_val]))
+            print("You selected {field} and scored {score}!".format(field = upper_score_val, score = self.score_dict[upper_score_val])) #Takes the value from score_dict, using the key calculated above
             print("")
             return Turn.turn_scored
+        #Logic for when the number selected is not present:
+        #NEED TO CHECK IF NECESARRY AS ZERO SCORES CAN BE SELECTED
         if num not in dice:
             print("No dice match selection, please select again.")
+        #Logic ensuring that if every value in self.score_dict is non-zero, the section is set to complete:
+        #NEED TO CHECK IF NECESARRY AS ZERO SCORES CAN BE SELECTED, MIGHT BE OBSOLETED BY self.score_used
         if not (0 in self.score_dict.values()):
             self.complete = True
 
-    #Method to apply the bonus score for the Upper section
+    #Method to apply the bonus score for the Upper section. 
     def upper_bonus_check(self):
         #Makes sure that the score hasn't been applied before, and that the lower score threshold has been met
         if self.upper_bonus == False and self.total >= 63: 
-            self.total += 35
+            self.total += 35 #Ensures that the bonus score is applied even when the player does not choose to use self.show_scores
             self.upper_bonus = True #Flags the bonus as being applied, so the score does not get repeat
 
-
+#A class for the scoring of the lower section of the game
 class LowerScore:
-
     def __init__(self):
         self.score_dict = {"Three Of A Kind": 0, 
                            "Four Of A Kind": 0,
@@ -185,20 +196,17 @@ class LowerScore:
                            "Large Straight": False,
                            "Yahtzee": False,
                            "Chance": False}                           
-        # self.lower_total = sum((self.score_dict).values())
         self.lower_total = 0
         self.complete = False
 
-    #SHOULD FORMAT THIS MORE FOR PLAYER
-    def __repr__(self):
-        return "The current scores for the Lower Section are {score_dict}, with a total of {total}".format(score_dict = self.score_dict, total = self.lower_total)
+    #Prints the status of the Upper section. Currently not used, but could be implemented in the future to give the player more options, or might replace show_scores:
+    # def __repr__(self):
+    #     return "The current scores for the Lower Section are {score_dict}, with a total of {total}".format(score_dict = self.score_dict, total = self.lower_total)
 
 
     #NEED TO FORMAT MORE
     def show_scores_lower(self):
         #Prints the current scores for the player. Get scores from score_dict
-
-
         print("Lower Section")
         print("############")
         print("(7) Three Of A Kind: {three_o_k}".format(three_o_k = self.score_dict["Three Of A Kind"]))
@@ -375,14 +383,14 @@ def roll_input(turn):
             print(turn)
         #Prompt to the player to choose the dice to reroll, setting as a variable turn_two_input. Then abother variable set as the result
         #of turn_two_input as the argument of the function to convert integers to dice objects
-        turn_two_input = input("Please enter the dice to roll again:")
+        turn_two_input = input("Please enter the dice you want to roll again, or press Enter to roll none: ")
         second_roll_input = dice_from_id(turn_two_input)
         #Roll the dice chosen using second_turn_input and print the turn object showing the results
         turn.roll(second_roll_input)
         print("")
         print(turn)
         #Prompt to the player to choose any dice to roll again, for the last roll.
-        turn_three_input = input("Please enter the dice to roll again:")
+        turn_three_input = input("Please enter the dice to roll again: ")
         third_roll_input = dice_from_id(turn_three_input)
         turn.roll(third_roll_input)
         #Shows the player the final dice, using the dice_saved attribute from the turn instance, and returns the dice_saved list
