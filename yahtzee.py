@@ -125,9 +125,14 @@ class UpperScore:
         print("(5) Fives: {fives}".format(fives = self.score_dict["Fives"]))
         print("(6) Sixes: {sixes}".format(sixes = self.score_dict["Sixes"]))
         print("--------------")
-        if self.total >= 63:            
+        print("Total Score: {total}".format(total = self.total))
+        if self.total >= 63:
             print("Bonus: 35")
-        print("Total: {total}".format(total = self.total))
+            print("Total: {total}".format(total = self.total + 35))
+        else:
+            print("Bonus: 0")
+            print("Total: {total}".format(total = self.total))
+        print("--------------")
         print("")
 
     #Method that takes a list of dice, and the number from the Upper Section to score against.
@@ -205,7 +210,7 @@ class LowerScore:
         print("(13) Chance: {chance}".format(chance = self.score_dict["Chance"]))
         print("--------------")
         print("Lower Total {lower_total}".format(lower_total = self.lower_total))
-        print("")
+        print("--------------")
 
 
     #Method to score the Three Of A Kind field, taking a set of dice and a Turn instance as arguments
