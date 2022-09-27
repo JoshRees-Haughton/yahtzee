@@ -203,10 +203,8 @@ class LowerScore:
     # def __repr__(self):
     #     return "The current scores for the Lower Section are {score_dict}, with a total of {total}".format(score_dict = self.score_dict, total = self.lower_total)
 
-
-    #NEED TO FORMAT MORE
+    #Prints the current scores for the player. Get scores from self.score_dict
     def show_scores_lower(self):
-        #Prints the current scores for the player. Get scores from score_dict
         print("Lower Section")
         print("############")
         print("(7) Three Of A Kind: {three_o_k}".format(three_o_k = self.score_dict["Three Of A Kind"]))
@@ -220,10 +218,11 @@ class LowerScore:
         print("Lower Total {lower_total}".format(lower_total = self.lower_total))
         print("--------------")
 
+#These methods below are used to score the fields in the Lower Section. Might be refactored in the future to be on method.
 
-    #Method to score the Three Of A Kind field, taking a set of dice and a Turn instance as arguments
+    #Takes a set of dice and a Turn instance as arguments
     def three_of_a_kind(self, dice, Turn):
-        self.score_used["Three Of A Kind"] = True
+        self.score_used["Three Of A Kind"] = True #Sets the field as being scored, regardless of whether the requirements of the field are met. This is as you can select and score zero.
         score_of_a_kind = sum(dice) #Variable that sums the dice values, which will be the final score for the field
         score_not_zero = False #Variable to track whether the score was zero or not
         for die in dice:
@@ -244,15 +243,17 @@ class LowerScore:
             print("")                   
         return Turn.turn_scored
 
+
+    #Very similar to three_of_a_kind above
     def four_of_a_kind(self, dice, Turn):
         self.score_used["Four Of A Kind"] = True
         score_of_a_kind = sum(dice)
-        score_not_zero = False #Variable to track whether the score was zero or not
+        score_not_zero = False
         for die in dice:
             if dice.count(die) == 4 and self.score_dict["Four Of A Kind"] == 0:
                 self.score_dict["Four Of A Kind"] = score_of_a_kind	
                 self.lower_total += score_of_a_kind
-                score_not_zero = True #Flags the score as being non-zero  
+                score_not_zero = True
         if score_not_zero == True:
             print("")
             print("You selected Four Of A Kind and scored {score}!".format(score = score_of_a_kind))
@@ -263,18 +264,22 @@ class LowerScore:
             print("")                     
         Turn.turn_scored = True
         return Turn.turn_scored
-        
+
     def full_house(self, dice, Turn):
         self.score_used["Full House"] = True
-        score_not_zero = False #Variable to track whether the score was zero or not
+        score_not_zero = False
+        #Loop to determin if the dice fulfill the rules for a Full House:
         for die in dice:
-            if dice.count(die) == 3:
-                dice_removed = [value for value in dice if value != die]
+            if dice.count(die) == 3: #Finds if there is three dice with the same value
+                dice_removed = [value for value in dice if value != die] #A list of dice values that do not equal the value of the three dice found above, i.e. a pair of dice
+                #Loop through this pair of dice to see if they match:
                 for die_new in dice_removed:
+                    #Checks for a match and that the field is zero:
                     if dice_removed.count(die_new) == 2 and self.score_dict["Full House"] == 0:
                         self.score_dict["Full House"] = 25
                         self.lower_total += 25
-                        score_not_zero = True #Flags the score as being non-zero  
+                        score_not_zero = True #Flags the score as being non-zero
+        #Logic for printing message to the player, depending on if the score was zero or not:  
         if score_not_zero == True:
             print("")
             print("You selected Full House and scored {score}!".format(score = 25))
@@ -288,13 +293,14 @@ class LowerScore:
 
     def sm_straight(self, dice, Turn):
         self.score_used["Small Straight"] = True
-        sm_straight_lists = [[1, 2, 3, 4], [2, 3, 4, 5], [3, 4, 5, 6]]
-        score_not_zero = False #Variable to track whether the score was zero or not
+        sm_straight_lists = [[1, 2, 3, 4], [2, 3, 4, 5], [3, 4, 5, 6]] #A list with all the possible lists of values that satisfy the requirements for a small straight
+        score_not_zero = False
         for die_list in sm_straight_lists:
-            if set(die_list).issubset(set(dice)) and self.score_dict["Small Straight"] == 0:
+            #Checks to see if each list in sm_straight_lists is a subset of the dice being scored, and therefore contain a small straight. This works regardless of the order of the dice: 
+            if set(die_list).issubset(set(dice)) and self.score_dict["Small Straight"] == 0: 
                 self.score_dict["Small Straight"] = 30
                 self.lower_total += 30
-                score_not_zero = True #Flags the score as being non-zero  
+                score_not_zero = True
         if score_not_zero == True:
             print("")
             print("You selected Small Straight and scored {score}!".format(score = 30))
@@ -306,6 +312,7 @@ class LowerScore:
         Turn.turn_scored = True
         return Turn.turn_scored
 
+    #Similar to sm_straight above:
     def lg_straight(self, dice, Turn):
         self.score_used["Large Straight"] = True             
         lg_straight_lists = [[1, 2, 3, 4, 5], [2, 3, 4, 5, 6]]
@@ -328,7 +335,8 @@ class LowerScore:
 
     def yahtzee(self, dice, Turn):
         self.score_used["Yahtzee"] = True
-        if dice.count(dice[0]) == 5:
+        if dice.count(dice[0]) == 5: #Checks that the first dice in the list is the same value as the other four dice
+            #Logic for when the field has been score already or not. For Yahtzees, you can score the field multiple times and score 100 points ino subsequent turns:
             if self.score_dict["Yahtzee"] == 0:
                 self.score_dict["Yahtzee"] = 50
                 self.lower_total += 50
@@ -348,6 +356,7 @@ class LowerScore:
         Turn.turn_scored = True
         return Turn.turn_scored
 
+    #This can be scored for any set of dice:
     def chance(self, dice, Turn):
         self.score_used["Chance"] = True
         print("")
@@ -359,11 +368,10 @@ class LowerScore:
         Turn.turn_scored = True
         return Turn.turn_scored
 
-
-#MIGHT BE ABLE TO REFACTOR INTO OTHER PARTS OF THE CODE
+#Function to convert a string of numbers into a list of dice to be used in other functions 
 def dice_from_id(id_string):
-    #Function to convert a string of numbers into a list of dice to be used in other functions 
     dice_new = []
+    #Loop through the string, and the set of game dice, and append the integer value of the string to the list dice_new:
     for num in id_string:
         for die in game_dice:
             if die.dice_id == int(num):
@@ -400,22 +408,24 @@ def roll_input(turn):
         print("")
         return turn.dice_saved
 
-
+#Prints the current scores for the player, including both the Upper and Lower sections:
 def show_available_scores(Game):
+    #Creates a dictionary to match the name of the field with a string containing the number the player select for that field in brackets:
     score_number_dict = {"Ones": "(1)", "Twos": "(2)", "Threes": "(3)", "Fours": "(4)", "Fives": "(5)", "Sixes": "(6)", 
                          "Three Of A Kind": "(7)", "Four Of A Kind": "(8)", "Full House": "(9)", "Small Straight": "(10)", "Large Straight": "(11)", "Yahtzee": "(12)", "Chance": "(13)"}
-    print("The remaining available score are:")
+    print("The remaining available score are TEST:")
     print("")	
     print("Upper Section")
     print("############")
+    #Loops through the fields in the Upper Section:
     for upper_key in Game.UpperScore.score_dict:
-        if Game.UpperScore.score_dict[upper_key] == 0 and Game.UpperScore.score_used[upper_key] == False:
-            print(score_number_dict[upper_key] + " " + upper_key)
+        if Game.UpperScore.score_used[upper_key] == False: #Checks that the field has not been scored against    
+            print(score_number_dict[upper_key] + " " + upper_key) #Prints number in brackets and the field using score_number_dict
     print("")			
     print("Lower Section")
     print("############")
     for lower_key in Game.LowerScore.score_dict:
-        if Game.LowerScore.score_dict[lower_key] == 0 and Game.LowerScore.score_used[lower_key] == False:
+        if Game.LowerScore.score_used[lower_key] == False:
             print(score_number_dict[lower_key] + " " + lower_key)
     print("")
 
