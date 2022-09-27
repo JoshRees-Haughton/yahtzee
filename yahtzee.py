@@ -432,10 +432,10 @@ def show_available_scores(Game):
 
 def input_score(dice, Game, Turn):
     score_done = False
-    score_list = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"]
+    #Lists to seperate the Upper and Lower sections, with values assigned to each field:
     score_upper_list = ["1", "2", "3", "4", "5", "6"]
     score_lower_list =  ["7", "8", "9", "10", "11", "12", "13"]
-    #A dictionary to match the players input to the relavent LowerScore functions
+    #A dictionary to match the players input to the relavent LowerScore methods
     input_score_lower_dict = {"l7": Game.LowerScore.three_of_a_kind, 
                               "l8": Game.LowerScore.four_of_a_kind, 
                               "l9": Game.LowerScore.full_house, 
@@ -443,26 +443,27 @@ def input_score(dice, Game, Turn):
                               "l11": Game.LowerScore.lg_straight, 
                               "l12": Game.LowerScore.yahtzee,
                               "l13": Game.LowerScore.chance}
+    #Loop runs until a valid score is selected:
     while score_done == False:
         select_score = input("Please input the number shown in brackets for the field you want to enter a score for: ") #Takes the players input and uses as the argument if scoring the Upper section
         if select_score in score_upper_list:
-            Game.UpperScore.score_upper(dice, int(select_score), Turn)
+            Game.UpperScore.score_upper(dice, int(select_score), Turn) #The Upper Section scoring method is used, with the input from the player just converted to an integer
             score_done = True
         #Takes the players input, concatinated with "l" at the front, and uses the dictionary to match with the correct Lower section method if scoring the Lower section
         if select_score in score_lower_list:
-            input_score_lower_dict["l" + select_score](dice, Turn) #Put "l" at the front as I was getting an error if it was just a number
+            input_score_lower_dict["l" + select_score](dice, Turn) #Put "l" at the front, as the method can't start with a number
             score_done = True
 
-#Function to check if the game is complete based on the scoring sections.
+#Function to check if the game is complete based on the scoring sections:
 def check_game_complete(Game):
     upper_complete = all(Game.UpperScore.score_used.values()) #Check if the Upper Section is complete by checking if all values are True
     lower_complete = all(Game.LowerScore.score_used.values()) #Check if the Lower Section is complete by checking if all values are True
-    #If both of the above are True, set the Game as complete
+    #If both of the above are True, set the Game as complete:
     if upper_complete and lower_complete:
         Game.game_complete = True
         return Game.game_complete
 
-#Player input and game stats here
+#Player input and game starts here:
 player = input("Please enter your name: ")
 game_play = Game(player) #Game object is initialised based on the player name input above
 turn_counter = 0 #Used to change some user text based on the turn number
@@ -474,6 +475,7 @@ print("")
 
 #Main while loop that runs until every field has been scored, with each loop being a turn
 while game_play.game_complete == False:
+    #For the first turn, the player should just be prompted to roll the dice:
     if turn_counter == 0:
         input("Press Enter to roll the dice...")
     print("")
@@ -483,11 +485,12 @@ while game_play.game_complete == False:
     dice_rolled = roll_input(turn_new) #The final dice at the end of a turn
     show_available_scores(game_play) #Show the final dice and the remaining scores to choose from
 
-    #Score is selected and the scores are shown
-    while turn_new.turn_scored == False:
-        input_score(dice_rolled, game_play, turn_new)
-    game_play.UpperScore.upper_bonus_check()
+    #Score is selected and the scores are shown:
+    while turn_new.turn_scored == False: #The loop runs until a valid turn is scored
+        input_score(dice_rolled, game_play, turn_new) #The dice used are the value of dice_rolled from above in the loop
+    game_play.UpperScore.upper_bonus_check() #Check if the bonus should be applied for the Upper Section this turn
     turn_counter += 1
+    #The choice that should be given to the player as long as it is not the final turn:
     if turn_counter != 13: 
         show_scores_input = input("Press 's' to see the current scores before rolling the dice, or Enter to skip the scores and roll the dice: ")
     if show_scores_input == "s":
@@ -495,8 +498,8 @@ while game_play.game_complete == False:
         print("Current scores:")
         game_play.UpperScore.show_scores()
         game_play.LowerScore.show_scores_lower()
-    check_game_complete(game_play)
-
+    check_game_complete(game_play) #Checks at the end of the turn whether the game is complete
+#Show the final scores to the player once the game is over:    
 game_play.final_scores()
 
 #Game end
