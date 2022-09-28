@@ -428,41 +428,51 @@ def show_available_scores(Game, dice_rolled):
     #Creates a dictionary to match the name of the field with a string containing the number the player select for that field in brackets:
     score_number_dict = {"Ones": "(1)", "Twos": "(2)", "Threes": "(3)", "Fours": "(4)", "Fives": "(5)", "Sixes": "(6)", 
                          "Three Of A Kind": "(7)", "Four Of A Kind": "(8)", "Full House": "(9)", "Small Straight": "(10)", "Large Straight": "(11)", "Yahtzee": "(12)", "Chance": "(13)"}
-    if Game.LowerScore.score_used["Yahtzee"] == False:
-        print("The remaining available score are:")
-        print("")	
-        print("Upper Section")
-        print("############")
-        #Loops through the fields in the Upper Section:
-        for upper_key in Game.UpperScore.score_dict:
-            if Game.UpperScore.score_used[upper_key] == False: #Checks that the field has not been scored against    
-                print(score_number_dict[upper_key] + " " + upper_key) #Prints number in brackets and the field using score_number_dict
-        print("")			
-        print("Lower Section")
-        print("############")
-        for lower_key in Game.LowerScore.score_dict:
-            if Game.LowerScore.score_used[lower_key] == False:
-                print(score_number_dict[lower_key] + " " + lower_key)
-        print("")
-    if Game.LowerScore.score_used["Yahtzee"] == True:
-        dice_rolled[0]
-        print("Yahtzee rolled, but already scored against! The score(s) you can pick are:")
-        if Game.UpperScore.score_used[upper_key] == False: 
-        print("")	
-        print("Upper Section")
-        print("############")
-        for upper_key in Game.UpperScore.score_dict:
-            if Game.UpperScore.score_used[upper_key] == False: #Checks that the field has not been scored against    
-                print(score_number_dict[upper_key] + " " + upper_key) #Prints number in brackets and the field using score_number_dict
-        print("")			
-        print("Lower Section")
-        print("############")
-        for lower_key in Game.LowerScore.score_dict:
-            if Game.LowerScore.score_used[lower_key] == False:
-                print(score_number_dict[lower_key] + " " + lower_key)
-        print("")        
+    num_to_score_dict = {1: "Ones", 2: "Twos", 3: "Threes", 4: "Fours", 5: "Fives", 6: "Sixes"}
 
-def yahtzee_bonus_scoring(dice, Game, Turn):
+    print("The remaining available score are:")
+    print("")	
+    print("Upper Section")
+    print("############")
+    #Loops through the fields in the Upper Section:
+    for upper_key in Game.UpperScore.score_dict:
+        if Game.UpperScore.score_used[upper_key] == False: #Checks that the field has not been scored against    
+            print(score_number_dict[upper_key] + " " + upper_key) #Prints number in brackets and the field using score_number_dict
+    print("")			
+    print("Lower Section")
+    print("############")
+    for lower_key in Game.LowerScore.score_dict:
+        if Game.LowerScore.score_used[lower_key] == False:
+            print(score_number_dict[lower_key] + " " + lower_key)
+    print("")
+
+    #Logic for if a Yahtzee has been previously scored   
+    if Game.LowerScore.score_used["Yahtzee"] == True and dice_rolled.count(dice_rolled[0]) == 5:
+        num_to_score = dice_rolled[0]
+        upper_yahtzee = num_to_score_dict[num_to_score]
+        print("Yahtzee rolled, but already scored against! The score(s) you can pick are:")
+        if Game.UpperScore.score_used[upper_yahtzee] == False:
+            print("")	
+            print("Upper Section")
+            print("############")
+            print(score_number_dict[upper_yahtzee] + " " + upper_yahtzee)
+        else:
+            if not(all(lower_value == True for lower_value in Game.UpperScore.score_used.values())):
+                print("")			
+                print("Lower Section")
+                print("############")
+                for lower_key in Game.LowerScore.score_dict:
+                    if Game.LowerScore.score_used[lower_key] == False:
+                        print(score_number_dict[lower_key] + " " + lower_key)
+                        print("")
+            else:
+                print("Upper Section")
+                print("############")
+                for upper_key in Game.UpperScore.score_dict:
+                    if Game.UpperScore.score_used[upper_key] == False: 
+                        print(score_number_dict[upper_key] + " " + upper_key)     
+
+# def yahtzee_bonus_scoring(dice, Game, Turn):
     
 
 def input_score(dice, Game, Turn):
@@ -518,7 +528,7 @@ while game_play.game_complete == False:
 
     #The dice are rolled up to three times
     dice_rolled = roll_input(turn_new) #The final dice at the end of a turn
-    show_available_scores(game_play) #Show the final dice and the remaining scores to choose from
+    show_available_scores(game_play, dice_rolled) #Show the final dice and the remaining scores to choose from
 
     #Score is selected and the scores are shown:
     while turn_new.turn_scored == False: #The loop runs until a valid turn is scored
