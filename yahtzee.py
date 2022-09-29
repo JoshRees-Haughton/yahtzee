@@ -358,12 +358,6 @@ class LowerScore:
                 print("")
                 print("You selected Yahtzee and scored {score}!".format(score = 50))
                 print("")        
-            # else:
-            #     self.score_dict["Yahtzee"] += 100
-            #     self.lower_total += 100
-            #     print("")
-            #     print("You selected Yahtzee and scored {score}!".format(score = 100))
-            #     print("")      
         else:
             print("")
             print("You selected Yahtzee and scored 0!")
@@ -430,6 +424,7 @@ def show_available_scores(Game, dice_rolled):
                          "Three Of A Kind": "(7)", "Four Of A Kind": "(8)", "Full House": "(9)", "Small Straight": "(10)", "Large Straight": "(11)", "Yahtzee": "(12)", "Chance": "(13)"}
     num_to_score_dict = {1: "Ones", 2: "Twos", 3: "Threes", 4: "Fours", 5: "Fives", 6: "Sixes"}
 
+    #Output text to Player starts here:
     print("The remaining available score are:")
     print("")	
     print("Upper Section")
@@ -441,22 +436,31 @@ def show_available_scores(Game, dice_rolled):
     print("")			
     print("Lower Section")
     print("############")
+    #Same as above but for the lower section:
     for lower_key in Game.LowerScore.score_dict:
         if Game.LowerScore.score_used[lower_key] == False:
             print(score_number_dict[lower_key] + " " + lower_key)
     print("")
 
-    #Logic for if a Yahtzee has been previously scored   
+    #Logic for if a Yahtzee has been previously scored:
+    #Checks that both a Yahtzee has been scored against previously, and the currrent roll is a Yahtzee
     if Game.LowerScore.score_used["Yahtzee"] == True and dice_rolled.count(dice_rolled[0]) == 5:
-        num_to_score = dice_rolled[0]
-        upper_yahtzee = num_to_score_dict[num_to_score]
-        print("Yahtzee rolled, but already scored against! The score(s) you can pick are:")
+        num_to_score = dice_rolled[0] #Flags the value of the dice in the Yahtzee
+        upper_yahtzee = num_to_score_dict[num_to_score] # Maps the value to the matching score field
+        print("Yahtzee rolled but already scored against, 100 bonus points applied!")
+        print("The score(s) you can pick this turn are:")
+
+        #If the applicable field in the upper section has not been scored against, the player must select that field:
         if Game.UpperScore.score_used[upper_yahtzee] == False:
             print("")	
             print("Upper Section")
             print("############")
             print(score_number_dict[upper_yahtzee] + " " + upper_yahtzee)
+            print("")
+
+        #If the field in the upper section has alreawy been scored agains, the player must select a field from the lower section:	
         else:
+            #Checks to see if any of the lower section fields haven't been scored against:
             if not(all(lower_value == True for lower_value in Game.UpperScore.score_used.values())):
                 print("")			
                 print("Lower Section")
@@ -464,16 +468,16 @@ def show_available_scores(Game, dice_rolled):
                 for lower_key in Game.LowerScore.score_dict:
                     if Game.LowerScore.score_used[lower_key] == False:
                         print(score_number_dict[lower_key] + " " + lower_key)
-                        print("")
+                print("")
+
+            #If all the fields in the lower section have been scored against, then the playher must pick a field in the upper section to score zero for:    
             else:
                 print("Upper Section")
                 print("############")
                 for upper_key in Game.UpperScore.score_dict:
                     if Game.UpperScore.score_used[upper_key] == False: 
-                        print(score_number_dict[upper_key] + " " + upper_key)     
-
-# def yahtzee_bonus_scoring(dice, Game, Turn):
-    
+                        print(score_number_dict[upper_key] + " " + upper_key)
+                print("")     
 
 def input_score(dice, Game, Turn):
     score_done = False
@@ -488,6 +492,13 @@ def input_score(dice, Game, Turn):
                               "l11": Game.LowerScore.lg_straight, 
                               "l12": Game.LowerScore.yahtzee,
                               "l13": Game.LowerScore.chance}
+
+    #Ensures that when a Yahtzee is rolled, and has been scored previously, the bonus 100 points is applied automatically
+    if dice.count(dice[0]) == 5 and Game.LowerScore.score_dict["Yahtzee"] != 0: 
+        Game.LowerScore.score_dict["Yahtzee"] += 100
+        Game.LowerScore.lower_total += 100
+
+
     #Loop runs until a valid score is selected:
     while score_done == False:
         select_score = input("Please input the number shown in brackets for the field you want to enter a score for: ") #Takes the players input and uses as the argument if scoring the Upper section
@@ -536,7 +547,7 @@ while game_play.game_complete == False:
     game_play.UpperScore.upper_bonus_check() #Check if the bonus should be applied for the Upper Section this turn
     turn_counter += 1
     #The choice that should be given to the player as long as it is not the final turn:
-    if turn_counter != 13: 
+    if turn_counter != 12: 
         show_scores_input = input("Press 's' to see the current scores before rolling the dice, or Enter to skip the scores and roll the dice: ")
     if show_scores_input == "s":
         print("")
