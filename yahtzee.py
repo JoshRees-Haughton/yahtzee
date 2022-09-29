@@ -520,6 +520,7 @@ def check_game_complete(Game):
         return Game.game_complete
 
 #Player input and game starts here:
+print("")
 player = input("Please enter your name: ")
 game_play = Game(player) #Game object is initialised based on the player name input above
 turn_counter = 0 #Used to change some user text based on the turn number
