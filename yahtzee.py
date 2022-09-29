@@ -187,14 +187,14 @@ class LowerScore:
                            "Full House": 0,
                            "Small Straight": 0,
                            "Large Straight": 0,
-                           "Yahtzee": 0,
+                           "Yahtzee": 50,
                            "Chance": 0}
         self.score_used = {"Three Of A Kind": False, 
                            "Four Of A Kind": False,
                            "Full House": False,
                            "Small Straight": False,
                            "Large Straight": False,
-                           "Yahtzee": False,
+                           "Yahtzee": True,
                            "Chance": False}                           
         self.lower_total = 0
         self.complete = False
@@ -227,7 +227,7 @@ class LowerScore:
         score_not_zero = False #Variable to track whether the score was zero or not
         for die in dice:
             #Checks that the number of dice with the same value as the current dice in the loop is equal to 3, and that the field doesn't already have a score assigned
-            if dice.count(die) == 3 and self.score_dict["Three Of A Kind"] == 0:
+            if dice.count(die) >= 3 and self.score_dict["Three Of A Kind"] == 0:
                 self.score_dict["Three Of A Kind"] = score_of_a_kind #Sets the score as the variable calculated at the start of the method
                 self.lower_total += score_of_a_kind #Adds the score to the total of the lower score section
                 score_not_zero = True #Flags the score as being non-zero  
@@ -250,7 +250,7 @@ class LowerScore:
         score_of_a_kind = sum(dice)
         score_not_zero = False
         for die in dice:
-            if dice.count(die) == 4 and self.score_dict["Four Of A Kind"] == 0:
+            if dice.count(die) >= 4 and self.score_dict["Four Of A Kind"] == 0:
                 self.score_dict["Four Of A Kind"] = score_of_a_kind	
                 self.lower_total += score_of_a_kind
                 score_not_zero = True
@@ -280,7 +280,7 @@ class LowerScore:
                         self.lower_total += 25
                         score_not_zero = True #Flags the score as being non-zero
         #Logic for scoring via the Yahtzee joker rule:                
-        if self.score_used["Yahtzee"] == True and self.score_dict["Full House"] == 0:
+        if (dice.count(dice[0]) == 5) and self.score_used["Yahtzee"] == True and self.score_dict["Full House"] == 0:
                         self.score_dict["Full House"] = 25
                         self.lower_total += 25
                         score_not_zero = True        
@@ -307,7 +307,7 @@ class LowerScore:
                 self.lower_total += 30
                 score_not_zero = True
         #Logic for scoring via the Yahtzee joker rule:         
-        if self.score_used["Yahtzee"] == True and self.score_dict["Small Straight"] == 0:
+        if (dice.count(dice[0]) == 5) and self.score_used["Yahtzee"] == True and self.score_dict["Small Straight"] == 0:
                 self.score_dict["Small Straight"] = 30
                 self.lower_total += 30
                 score_not_zero = True            
@@ -333,7 +333,7 @@ class LowerScore:
                 self.lower_total += 40
                 score_not_zero = True #Flags the score as being non-zero
         #Logic for scoring via the Yahtzee joker rule:           
-        if self.score_used["Yahtzee"] == True and self.score_dict["Large Straight"] == 0:
+        if (dice.count(dice[0]) == 5) and self.score_used["Yahtzee"] == True and self.score_dict["Large Straight"] == 0:
                 self.score_dict["Large Straight"] = 40
                 self.lower_total += 40
                 score_not_zero = True        
