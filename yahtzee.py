@@ -33,6 +33,7 @@ class Game:
         print("##############")
         print("Grand Total: {final_score}".format(final_score = final_score))
         print("##############")
+        print("")
             
 class Die:
     #Values are static for all instances of the class
