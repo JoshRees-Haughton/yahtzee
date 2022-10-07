@@ -1,11 +1,13 @@
 import random
+import pickle
+
 
 #Main 
 class Game:
     # Will contain highscore data in the future: 
-    # game_number = 0
-    # high_score = 0
-    # high_score_player = ""
+    game_number = 0
+    high_score = 0
+    high_score_player = ""
 
     def __init__(self, player):
         self.player = player
@@ -34,6 +36,15 @@ class Game:
         print("Grand Total: {final_score}".format(final_score = final_score))
         print("##############")
         print("")
+    
+    # def high_scores(self):
+    #     if self.high_score == 0:
+
+
+    #     if self.game_score >= self.high_score:
+    #         self.high_score = self.game_score
+    #         self.high_score_player = self.player
+    #         print("You got a new high score!")
             
 class Die:
     #Values are static for all instances of the class
@@ -519,6 +530,21 @@ def check_game_complete(Game):
     if upper_complete and lower_complete:
         Game.game_complete = True
         return Game.game_complete
+
+
+# #Initialising the high scores:
+# high_score_dict = {}
+# filename = "scores"
+# outfile = open(filename,'wb')
+# pickle.dump(high_score_dict,outfile)
+# outfile.close()
+
+# infile = open(filename,'rb')
+# new_dict = pickle.load(infile)
+# infile.close()
+
+# print(new_dict)
+# print(type(new_dict))
 
 #Player input and game starts here:
 print("")
