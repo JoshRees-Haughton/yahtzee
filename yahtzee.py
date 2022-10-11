@@ -36,6 +36,27 @@ class Game:
         print("Grand Total: {final_score}".format(final_score = final_score))
         print("##############")
         print("")
+
+    def high_scores(self):
+        with open(filename,'r+b') as infile: 
+            new_dict = pickle.load(infile)
+                #Logic for the player high score:
+            if self.game_score > new_dict[self.player]:
+                print("You achieved a new personal high score, {player}!".format(player = self.player))
+                new_dict[self.player] = self.game_score
+                self.high_score_player = self.player #POTENTIALLY REDUNDANT
+                new_dict.update({self.player: self.game_score})
+                pickle.dump(new_dict, outfile) #Writes the updated dictionary with the latest high score
+                # with open(filename,'wb') as outfile:
+                #     pickle.dump(new_dict,outfile) #Writes the updated dictionary with the latest high score
+            if self.game_score > max(new_dict.values()):
+                print("You achieved a global high score!")
+        # new_dict
+        # with open(filename,'wb') as outfile:
+        #                 pickle.dump(new_dict, outfile) #Writes the updated dictionary with the latest high score
+                
+
+        
     
     # def high_scores(self):
     #     if self.high_score == 0:
@@ -550,12 +571,40 @@ def check_game_complete(Game):
 print("")
 player = input("Please enter your name: ")
 game_play = Game(player) #Game object is initialised based on the player name input above
+game_play.game_number += 1
 turn_counter = 0 #Used to change some user text based on the turn number
+print(game_play.game_number)
 
-#Welcomes the player based on the name entered
-print("")
-print("Welcome to Yahtzee, {player}!".format(player = game_play.player))
-print("")
+#Initialising the high scores:
+#Ensures that the hig score dictionary is only created for the first game, so it doesn't get overwritten:
+filename = "scores" #The high score file we want to point to
+if game_play.game_number == 1: 
+    high_score_dict = {} #This will store the player name and associated high score
+    print("")
+    print("Welcome to Yahtzee, {player}!.".format(player = game_play.player))
+    print("")
+    high_score_dict.update({game_play.player: 0})
+    with open(filename,'wb') as outfile: #Ensures that we don't have to close the file explicitly
+        pickle.dump(high_score_dict,outfile) #Writes the empty dictionary to the file
+        print(high_score_dict)
+else:
+    with open(filename,'rb', encoding='utf-8') as infile: #Ensures that we don't have to close the file explicitly
+        new_dict = pickle.load(infile)
+        high_score_global = max(new_dict.values())
+        if game_play.player in new_dict:
+            high_score_player = new_dict[game_play.player]
+        else:
+            high_score_player = 0
+            #Welcomes the player based on the name entered
+        print("")
+        print("Welcome to Yahtzee, {player}! Your personal score to beat is {high_score_player}, and the global score is {high_score_global}.".format(
+            player = game_play.player, high_score_player = high_score_player, high_score_global = high_score_global))
+        print("")
+
+    # outfile = open(filename,'wb') 
+    # pickle.dump(high_score_dict,outfile)
+    # outfile.close()
+
 
 #Main while loop that runs until every field has been scored, with each loop being a turn
 while game_play.game_complete == False:
@@ -583,7 +632,9 @@ while game_play.game_complete == False:
         game_play.UpperScore.show_scores()
         game_play.LowerScore.show_scores_lower()
     check_game_complete(game_play) #Checks at the end of the turn whether the game is complete
+
 #Show the final scores to the player once the game is over:    
 game_play.final_scores()
+game_play.high_scores()
 
 #Game end
