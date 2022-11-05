@@ -1,6 +1,6 @@
 import random
-import pickle
-
+import json
+import os
 
 #Main 
 class Game:
@@ -38,35 +38,17 @@ class Game:
         print("")
 
     def high_scores(self):
-        with open(filename,'r+b') as infile: 
-            new_dict = pickle.load(infile)
-                #Logic for the player high score:
-            if self.game_score > new_dict[self.player]:
+        #Opens the JSON file that should have been created at the start of the game loop:
+        with open("data.json", "w") as outfile:
+            #Logic for checking the high scores:
+            if self.game_score >= game_data["player_high_score"][player]:
+                game_data["player_high_score"].update({player: self.game_score})
                 print("You achieved a new personal high score, {player}!".format(player = self.player))
-                new_dict[self.player] = self.game_score
-                self.high_score_player = self.player #POTENTIALLY REDUNDANT
-                new_dict.update({self.player: self.game_score})
-                pickle.dump(new_dict, outfile) #Writes the updated dictionary with the latest high score
-                # with open(filename,'wb') as outfile:
-                #     pickle.dump(new_dict,outfile) #Writes the updated dictionary with the latest high score
-            if self.game_score > max(new_dict.values()):
-                print("You achieved a global high score!")
-        # new_dict
-        # with open(filename,'wb') as outfile:
-        #                 pickle.dump(new_dict, outfile) #Writes the updated dictionary with the latest high score
-                
-
+            if self.game_score >= game_data["global_high_score"]:
+                game_data["global_high_score"] = self.game_score
+                print("You achieved a new global high score, {player}!".format(player = self.player))
+            json.dump(game_data, outfile) #Write to the JSON file
         
-    
-    # def high_scores(self):
-    #     if self.high_score == 0:
-
-
-    #     if self.game_score >= self.high_score:
-    #         self.high_score = self.game_score
-    #         self.high_score_player = self.player
-    #         print("You got a new high score!")
-            
 class Die:
     #Values are static for all instances of the class
     values = [1, 2, 3, 4, 5, 6]
@@ -553,58 +535,30 @@ def check_game_complete(Game):
         return Game.game_complete
 
 
-# #Initialising the high scores:
-# high_score_dict = {}
-# filename = "scores"
-# outfile = open(filename,'wb')
-# pickle.dump(high_score_dict,outfile)
-# outfile.close()
+if os.path.exists("data.json"):
+    with open("data.json") as infile:
+        game_data = json.load(infile)
 
-# infile = open(filename,'rb')
-# new_dict = pickle.load(infile)
-# infile.close()
+else:
+    game_data = {"game_number": 0, "global_high_score": 0, "player_high_score": {}}
+    with open("data.json", "w") as outfile:
+        json.dump(game_data, outfile)
 
-# print(new_dict)
-# print(type(new_dict))
 
 #Player input and game starts here:
 print("")
 player = input("Please enter your name: ")
+
 game_play = Game(player) #Game object is initialised based on the player name input above
-game_play.game_number += 1
+game_data["game_number"] += 1 #Increments the counter that's saved in the JSON file
+#Adds the player to the score dictionary if they do not exist already, then writes to the JSON file:
+if player not in game_data["player_high_score"]:
+    game_data["player_high_score"].update({player: 0})
+with open("data.json", "w") as outfile:
+    json.dump(game_data, outfile)
+
+
 turn_counter = 0 #Used to change some user text based on the turn number
-print(game_play.game_number)
-
-#Initialising the high scores:
-#Ensures that the hig score dictionary is only created for the first game, so it doesn't get overwritten:
-filename = "scores" #The high score file we want to point to
-if game_play.game_number == 1: 
-    high_score_dict = {} #This will store the player name and associated high score
-    print("")
-    print("Welcome to Yahtzee, {player}!.".format(player = game_play.player))
-    print("")
-    high_score_dict.update({game_play.player: 0})
-    with open(filename,'wb') as outfile: #Ensures that we don't have to close the file explicitly
-        pickle.dump(high_score_dict,outfile) #Writes the empty dictionary to the file
-        print(high_score_dict)
-else:
-    with open(filename,'rb', encoding='utf-8') as infile: #Ensures that we don't have to close the file explicitly
-        new_dict = pickle.load(infile)
-        high_score_global = max(new_dict.values())
-        if game_play.player in new_dict:
-            high_score_player = new_dict[game_play.player]
-        else:
-            high_score_player = 0
-            #Welcomes the player based on the name entered
-        print("")
-        print("Welcome to Yahtzee, {player}! Your personal score to beat is {high_score_player}, and the global score is {high_score_global}.".format(
-            player = game_play.player, high_score_player = high_score_player, high_score_global = high_score_global))
-        print("")
-
-    # outfile = open(filename,'wb') 
-    # pickle.dump(high_score_dict,outfile)
-    # outfile.close()
-
 
 #Main while loop that runs until every field has been scored, with each loop being a turn
 while game_play.game_complete == False:
