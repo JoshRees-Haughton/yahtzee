@@ -8,5 +8,3 @@ Planned improvements:
 1. Allow player to play multiple games in a row.
 2. Implement other Yahtzee Joker rules, with the ability for the player to be able to choose 
    (see "Yahtzee bonuses and Joker rules" in https://en.wikipedia.org/wiki/Yahtzee).
-3. Implement saving of both global and player high scores. 
-
