@@ -558,9 +558,19 @@ while True:
         game_data["player_high_score"].update({player: 0})
         with open("data.json", "w") as outfile:
             json.dump(game_data, outfile)
-
-    game_options_start = input("Would you like to \n(1) PLay a game \n(2) See the current high scores\nPlease enter your selection: ")
-    #Main while loop that runs until every field has been scored, with each loop being a turn
+    #Prompt for the player to either start the game or see the high scores:
+    game_options_start = input("Would you like to \n\n(1) Play a game \n(2) See the current high scores before starting a game\n(3) End the game\n\nPlease enter your selection: ")
+    if game_options_start == "2":
+        print("")
+        print("This is game number: {number}".format(number = game_data["game_number"]))
+        print("The global high score is: {global_high}".format(global_high = game_data["global_high_score"]))
+        print("Your high score is: {player_high}".format(player_high = game_data["player_high_score"][player]))
+    #Main while loop that runs until every field has been scored, with each loop being a turn:
+    if game_options_start == "3":
+        print("")
+        print("Thank you for playing!")
+        print("")
+        break
     while game_play.game_complete == False:
         #For the first turn, the player should just be prompted to roll the dice:
         if turn_counter == 0:
@@ -588,8 +598,8 @@ while True:
             game_play.LowerScore.show_scores_lower()
         check_game_complete(game_play) #Checks at the end of the turn whether the game is complete
 
-#Show the final scores to the player once the game is over:    
-game_play.final_scores()
-game_play.high_scores()
+        #Show the final scores to the player once the game is over:    
+        game_play.final_scores()
+        game_play.high_scores()
 
 #Game end
