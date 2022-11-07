@@ -549,43 +549,44 @@ else:
 print("")
 player = input("Please enter your name: ")
 
-game_play = Game(player) #Game object is initialised based on the player name input above
-game_data["game_number"] += 1 #Increments the counter that's saved in the JSON file
-#Adds the player to the score dictionary if they do not exist already, then writes to the JSON file:
-if player not in game_data["player_high_score"]:
-    game_data["player_high_score"].update({player: 0})
-with open("data.json", "w") as outfile:
-    json.dump(game_data, outfile)
-
-
 turn_counter = 0 #Used to change some user text based on the turn number
+while True:
+    game_play = Game(player) #Game object is initialised based on the player name input above
+    game_data["game_number"] += 1 #Increments the counter that's saved in the JSON file
+    #Adds the player to the score dictionary if they do not exist already, then writes to the JSON file:
+    if player not in game_data["player_high_score"]:
+        game_data["player_high_score"].update({player: 0})
+        with open("data.json", "w") as outfile:
+            json.dump(game_data, outfile)
 
-#Main while loop that runs until every field has been scored, with each loop being a turn
-while game_play.game_complete == False:
-    #For the first turn, the player should just be prompted to roll the dice:
-    if turn_counter == 0:
-        input("Press Enter to roll the dice...")
-    print("")
-    turn_new = Turn() #Each turn of the game should be initialised here
-
-    #The dice are rolled up to three times
-    dice_rolled = roll_input(turn_new) #The final dice at the end of a turn
-    show_available_scores(game_play, dice_rolled) #Show the final dice and the remaining scores to choose from
-
-    #Score is selected and the scores are shown:
-    while turn_new.turn_scored == False: #The loop runs until a valid turn is scored
-        input_score(dice_rolled, game_play, turn_new) #The dice used are the value of dice_rolled from above in the loop
-    game_play.UpperScore.upper_bonus_check() #Check if the bonus should be applied for the Upper Section this turn
-    turn_counter += 1
-    #The choice that should be given to the player as long as it is not the final turn:
-    if turn_counter != 12: 
-        show_scores_input = input("Press 's' to see the current scores before rolling the dice, or Enter to skip the scores and roll the dice: ")
-    if show_scores_input == "s":
+    game_options_start = input("Would you like to \n(1) PLay a game \n(2) See the current high scores\nPlease enter your selection: ")
+    #Main while loop that runs until every field has been scored, with each loop being a turn
+    while game_play.game_complete == False:
+        #For the first turn, the player should just be prompted to roll the dice:
+        if turn_counter == 0:
+            print("")
+            input("Press Enter to roll the dice...")
         print("")
-        print("Current scores:")
-        game_play.UpperScore.show_scores()
-        game_play.LowerScore.show_scores_lower()
-    check_game_complete(game_play) #Checks at the end of the turn whether the game is complete
+        turn_new = Turn() #Each turn of the game should be initialised here
+
+        #The dice are rolled up to three times
+        dice_rolled = roll_input(turn_new) #The final dice at the end of a turn
+        show_available_scores(game_play, dice_rolled) #Show the final dice and the remaining scores to choose from
+
+        #Score is selected and the scores are shown:
+        while turn_new.turn_scored == False: #The loop runs until a valid turn is scored
+            input_score(dice_rolled, game_play, turn_new) #The dice used are the value of dice_rolled from above in the loop
+        game_play.UpperScore.upper_bonus_check() #Check if the bonus should be applied for the Upper Section this turn
+        turn_counter += 1
+        #The choice that should be given to the player as long as it is not the final turn:
+        if turn_counter != 12: 
+            show_scores_input = input("Press 's' to see the current scores before rolling the dice, or Enter to skip the scores and roll the dice: ")
+        if show_scores_input == "s":
+            print("")
+            print("Current scores:")
+            game_play.UpperScore.show_scores()
+            game_play.LowerScore.show_scores_lower()
+        check_game_complete(game_play) #Checks at the end of the turn whether the game is complete
 
 #Show the final scores to the player once the game is over:    
 game_play.final_scores()
